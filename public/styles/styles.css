@@ -65,3 +65,51 @@ body {
     padding: 20px;
     text-align: center;
 }
+
+.navbar-toggler:focus {
+    outline: none;
+}
+
+.fa-white,
+.white-icon {
+    color: white;
+}
+
+.navbar-toggler .fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.navbar-toggler[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.small-copyright {
+    font-size: 10px;
+}
+
+.ft-text {
+    font-size: 12px;
+}
+
+.nav-footer-links a {
+    color: #ffffff;
+    font-size: 15px;
+}
+
+.nav-footer-links a:hover {
+    color: #bbbbbb;
+    text-decoration: none;
+}
+
+.navbar-brand {
+    max-height: 40px;
+    color: #ffffff;
+}
+
+.navbar-brand:hover {
+    color: #bbbbbb;
+}
+
+.nav-footer-bg {
+    background-color: #4d8c77;
+}

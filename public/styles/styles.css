@@ -1,0 +1,67 @@
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container .btn.btn-primary {
+    background-color: #5f87ad;
+    border-color: transparent;
+}
+
+.container .btn.btn-primary:hover {
+    background-color: #627e9d;
+    border-color: transparent;
+}
+
+.custom-hr {
+    border-top: 2px solid #ffffff;
+}
+
+.styled-box {
+    background-color: #487bab;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    color: #ffffff;
+    width: 100%;
+    height: 270px;
+    overflow-y: auto;
+}
+
+.box-links a {
+    color: #ffffff;
+}
+
+.box-links a:hover {
+    color: #bbbbbb;
+    text-decoration: none;
+}
+
+.jumbotron {
+    background-color: #3c73a8;
+    color: #ffffff;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+body {
+    background-color: #3c73a8;
+}
+
+/* Need some work on the movement of the words and buttons when resizing */
+
+.custom-card {
+    background-color: #487bab;
+    color: #ffffff;
+    border: none;
+}
+
+.custom-card .card-body {
+    padding: 20px;
+    text-align: center;
+}

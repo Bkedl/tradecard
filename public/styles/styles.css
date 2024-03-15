@@ -50,7 +50,7 @@
 }
 
 body {
-    background-color: #3c73a8;
+    background-color: #ffffff;
 }
 
 /* Need some work on the movement of the words and buttons when resizing */
@@ -111,5 +111,10 @@ body {
 }
 
 .nav-footer-bg {
-    background-color: #4d8c77;
+    background-color: #3c73a8;
+}
+
+.contact-text {
+    font-size: 14px;
+    color: #6b6b6b;
 }

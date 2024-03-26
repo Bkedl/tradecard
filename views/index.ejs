@@ -8,117 +8,84 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="/styles/styles.css">
+</head>
 
 <body>
 
     <%- include('partials/navbar') %>
 
-
-        <div class="container mt-2">
-            <div class="jumbotron">
+        <div class="container-fluid p-0">
+            <div class="jumbotron text-center jum-top mb-0">
                 <h1 class="display-4">Pokécard Palace</h1>
-
-                <p class="lead box-links">
+                <p class="lead links">
                     Here you can find a wide selection of Pokémon trading cards
-                    from various generations and series. Whether you're a seasoned collector or just starting
-                    out, we have something for everyone. If you encounter any issues, have questions, or
-                    need assistance, please <a href="/contact">Contact Us</a>.
-
-                    <hr class="my-4 custom-hr">
-
-                <p>Explore our site using the buttons below!</p>
+                    from various generations and series. <br>Whether you're a seasoned collector or just starting
+                    out, we have something for everyone. <br>If you encounter any issues, have questions, or
+                    need assistance, please <a href="/contact">Contact Us</a>
+                </p>
+                <hr class="my-4 short-hr">
+                <p>Discover our card collections by using the button below!</p>
                 <div class="text-center">
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="col-sm-4 mt-2">
-                            <a href="#" class="btn btn-primary btn-block rounded shadow-lg">Random Card </a>
-                        </div>
-                        <div class="col-sm-4 mt-2">
-                            <a href="/collections" class="btn btn-primary btn-block rounded shadow-lg">Browse
-                                Collection</a>
-                        </div>
-                        <div class="col-sm-4 mt-2">
-                            <a href="/contact" class="btn btn-primary btn-block rounded shadow-lg">Contact Us</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Using Target blank here to ensure they open on new tab, can adjust depending on spec etc -->
-            <div class="row mt-4">
-                <div class="col-md-6 mt-1">
-                    <div class="styled-box box-links shadow-lg">
-                        <h3>Newcomers</h3>
-                        <p>Are you new to Pokémon card collecting? Check out these resources to get started:</p>
-                        <ul>
-                            <li><a href="https://www.pokemon.com/us/pokemon-tcg/play-online/" target="_blank">Pokémon
-                                    TCG Online</a></li>
-                            <li><a href="https://www.pokemon.com/us/pokemon-tcg/rules/" target="_blank">Official
-                                    Pokémon
-                                    TCG Rules</a></li>
-                            <li><a href="https://bulbapedia.bulbagarden.net/wiki/Introduction_to_the_Pok%C3%A9mon_Trading_Card_Game"
-                                    target="_blank">Bulbapedia: Introduction to the Pokémon TCG</a>
-                            </li>
-                            <li><a href="https://www.reddit.com/r/pkmntcg/" target="_blank">Reddit: Pokémon TCG
-                                    Subreddit</a></li>
-                        </ul>
-                    </div>
-
-
-                </div>
-                <div class="col-md-6 mt-1">
-                    <div class="styled-box box-links shadow-lg">
-                        <h3>Why Collect Pokémon Cards?</h3>
-                        <p>There are various reasons why individuals might choose to collect Pokémon cards, and here are
-                            a few of them:</p>
-                        <ol>
-                            <li>For those who cherish the nostalgia of collecting</li>
-                            <li>To battle with friends through the physical game</li>
-                            <li>For collectors who seek to turn their passion into profit</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 custom-card shadow-lg">
-                        <img class="card-img-top" src="/images/card1.png" alt="Paldean Fates Card Promo">
-                        <div class="card-body">
-                            <h5 class="card-title">Paldean Fates</h5>
-                            <p class="card-text">Shine Bright in
-                                Scarlet & Violet—Paldean Fates</p>
-                            <a href="https://www.pokemon.com/us/pokemon-news/shine-bright-with-mimikyu-gardevoir-ex-charizard-ex-and-more-in-scarlet-violet-paldean-fates"
-                                class="btn btn-primary">Go to External Article</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 custom-card shadow-lg">
-                        <img class="card-img-top" src="/images/card2.jpeg" alt="Darkrai">
-                        <div class="card-body">
-                            <h5 class="card-title">Pokémon GO</h5>
-                            <p class="card-text">Darkrai Pokémon GO Raid Battle Tips</p>
-                            <a href="https://www.pokemon.com/us/strategy/darkrai-pokemon-go-raid-battle-tips"
-                                class="btn btn-primary">Go to External Article</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 custom-card shadow-lg">
-                        <img class="card-img-top" src="/images/card3.png" alt="Prize Pack Promo">
-                        <div class="card-body">
-                            <h5 class="card-title">Prize Packs</h5>
-                            <p class="card-text">Pokémon Prize Packs Series Four</p>
-                            <a href="https://www.pokemon.com/us/pokemon-news/receive-play-pokemon-prize-packs-series-four-at-your-local-game-store"
-                                class="btn btn-primary">Go to External Article</a>
+                            <a href="/collections" class="btn btn-primary">Browse Collection</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <%- include('partials/footer') %>
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="styled-boxes-container">
+                        <div class="row mt-4">
+                            <div class="col-md-4 mt-1">
+                                <div class="styled-box">
+                                    <h3><i class="fa-regular fa-star"></i></h3>
+                                    <h5>Why Become a Member?</h5>
+                                    <ul class="bullet-list">
+                                        <li>Create your card collection & rate others</li>
+                                        <li>Add cards to your wishlist & compare stats</li>
+                                        <li>Trade your cards with other members</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-1">
+                                <div class="styled-box">
+                                    <h3><i class="fa-regular fa-gem"></i></h3>
+                                    <h5>Why Collect Cards?</h5>
+                                    <ul class="bullet-list">
+                                        <li>For those who cherish the nostalgia of collecting</li>
+                                        <li>To battle with friends through the physical game</li>
+                                        <li>For collectors to turn their passion into profit</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-1">
+                                <div class="styled-box">
+                                    <h3><i class="fa-regular fa-square-check"></i></h3>
+                                    <h5>Why Track Online?</h5>
+                                    <ul class="bullet-list">
+                                        <li>Easily organize your card collection</li>
+                                        <li>Enhance card accessibility and convenience</li>
+                                        <li>Opportunities for community engagement</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="jumbotron text-center mb-0 mt-5 jum-btm">
+            <h4 class="my-4">
+                Unify. Track. Collect. Conquer.
+            </h4>
+        </div>
+
+        <%- include('partials/footer') %>
 
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

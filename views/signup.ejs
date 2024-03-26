@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pokécard Palace | Account</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<body class="signup">
+
+    <%- include('partials/navbar') %>
+        <div class="container-fluid account-section">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-4">
+                    <form id="signInForm">
+                        <h2 class="text-center mt-4">S I G N&nbsp;&nbsp;I N</h2>
+                        <hr class="my-4 short-hr">
+                        <div class="form-group">
+                            <label for="signInUsername">Username</label>
+                            <input type="text" class="form-control" id="signInUsername" placeholder="Enter username">
+                        </div>
+                        <div class="form-group">
+                            <label for="signInPassword">Password</label>
+                            <input type="password" class="form-control" id="signInPassword"
+                                placeholder="Enter password">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        <p class="text-center mt-3 links">Forgot your password? <a href="#">Reset here</a></p>
+                    </form>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-4">
+                    <form id="signupForm">
+                        <h2 class="text-center mt-4">S I G N&nbsp;&nbsp;U P</h2>
+                        <hr class="my-4 short-hr">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="Enter username">
+                        </div>
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" class="form-control" id="dob">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword"
+                                placeholder="Confirm password">
+                        </div>
+                        <div class="alert alert-warning" id="passwordMismatchAlert" role="alert" style="display: none;">
+                            Passwords do not match.
+                        </div>
+                        <div class="alert alert-danger" id="ageAlert" role="alert" style="display: none;">
+                            You must be at least 13 years old to sign up due to legal restrictions.
+                            <!-- Add ref in report to GDPR UK of children -->
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <%- include('partials/footer') %>
+
+
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+                integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+                integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+                crossorigin="anonymous"></script>
+            <script src="/js/signup.js"></script>
+</body>
+
+</html>

@@ -1,69 +1,89 @@
 .container {
-    max-width: 1400px;
-    margin: auto;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 0;
     font-family: 'Montserrat', sans-serif;
+    color: #000000;
+}
+
+.links a {
+    color: #f15b4e;
+    text-decoration: none;
+}
+
+.links a:hover {
+    color: #9c4942;
 }
 
 .container .btn.btn-primary {
-    background-color: #5f87ad;
+    background-color: #f15b4e;
     border-color: transparent;
 }
 
 .container .btn.btn-primary:hover {
-    background-color: #627e9d;
+    background-color: #9c4942;
     border-color: transparent;
+}
+
+.jumbotron {
+    color: #ffffff;
+    border-radius: 0;
+}
+
+.jumbotron .btn.btn-primary {
+    background-color: #f15b4e;
+    border-color: transparent;
+}
+
+.jumbotron .btn.btn-primary:hover {
+    background-color: #9c4942;
+    border-color: transparent;
+}
+
+.jum-top {
+    background-image: url('/images/index-top.png');
+    background-size: cover;
+}
+
+.jum-btm {
+    background-image: url('/images/index-btm.png');
+    background-size: cover;
 }
 
 .custom-hr {
     border-top: 2px solid #ffffff;
 }
 
-.styled-box {
-    background-color: #487bab;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    color: #ffffff;
+.short-hr {
+    border-top: 1.5px solid #ffffff;
+    width: 200px;
+}
+
+.styled-boxes-container {
     width: 100%;
-    height: 270px;
+}
+
+.styled-box {
+    background-color: #f4f4f4;
+    padding: 40px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    color: #000000;
+    height: 330px;
     overflow-y: auto;
 }
 
-.box-links a {
-    color: #ffffff;
+.bullet-list {
+    padding-left: 20px;
 }
 
-.box-links a:hover {
-    color: #bbbbbb;
-    text-decoration: none;
-}
-
-.jumbotron {
-    background-color: #3c73a8;
-    color: #ffffff;
-    text-align: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+.styled-box h3 {
+    color: #f15b4e;
 }
 
 body {
     background-color: #ffffff;
-}
-
-/* Need some work on the movement of the words and buttons when resizing */
-
-.custom-card {
-    background-color: #487bab;
-    color: #ffffff;
-    border: none;
-}
-
-.custom-card .card-body {
-    padding: 20px;
-    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar-toggler:focus {
@@ -97,24 +117,58 @@ body {
 }
 
 .nav-footer-links a:hover {
-    color: #bbbbbb;
+    color: #f15b4e;
     text-decoration: none;
 }
 
-.navbar-brand {
-    max-height: 40px;
-    color: #ffffff;
-}
-
-.navbar-brand:hover {
-    color: #bbbbbb;
-}
-
 .nav-footer-bg {
-    background-color: #3c73a8;
+    background-color: #000000;
+}
+
+.footer-text {
+    color: #ffffff;
 }
 
 .contact-text {
     font-size: 14px;
-    color: #6b6b6b;
+    color: #000000;
+}
+
+.contact-section {
+    background-image: url('/images/contact-bg.png');
+    background-size: cover;
+    color: #ffffff;
+}
+
+.contact-section h2,
+.contact-section p {
+    color: #ffffff;
+}
+
+.icon-text {
+    font-style: italic;
+    font-weight: 100;
+    color: #ffffff;
+}
+
+.account-section {
+    background-image: url('/images/account-bg.png');
+    background-size: cover;
+    color: white;
+}
+
+.account-section p {
+    color: #ffffff;
+}
+
+/* Specificc button selectors as the other ones are not working - try and find fix if needed */
+
+.account-section .btn.btn-primary {
+    background-color: #f15b4e;
+    border-color: transparent;
+}
+
+.account-section .btn.btn-primary:hover {
+    background-color: #9c4942;
+    border-color: transparent;
 }

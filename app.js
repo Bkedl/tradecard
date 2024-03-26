@@ -38,8 +38,8 @@ app.get('/', log_data, browser_lang, (req, res) => {
 // bsically a guide for the next pages to make
 
 // maybe better being account? adjust when made
-app.get('/form', log_data, browser_lang, (req, res) => {
-    res.render("form", { title: 'account' })
+app.get('/signup', log_data, browser_lang, (req, res) => {
+    res.render("signup", { title: 'sign-up' })
 });
 
 app.get('/contact', log_data, browser_lang, (req, res) => {

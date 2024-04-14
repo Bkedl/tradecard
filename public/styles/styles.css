@@ -172,3 +172,7 @@ body {
     background-color: #9c4942;
     border-color: transparent;
 }
+
+.error-section {
+    margin-top: 200px;
+}

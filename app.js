@@ -46,27 +46,55 @@ app.get('/contact', log_data, browser_lang, (req, res) => {
 });
 
 
-app.get('/collections', (req, res) => {
 
-    let ep = `http://localhost:4000/collections/`;
 
-    axios.get(ep).then((response) => {
-        let cdata = response.data;
-        res.render('collections', { title: 'Collections', cdata });
 
-    });
+
+
+// USING API HERE 
+
+app.get('/cards', (req, res) => {
+    let ep = `http://localhost:4000/cards/`;
+    let searchQuery = req.query.name || ''; // Extract search query from request
+    let expansionFilter = req.query.expansion || ''; // Extract expansion filter from request
+    let typeFilter = req.query.type || ''; // Extract card type filter from request
+    let energyTypeFilter = req.query.energy || ''; // Extract energy type filter from request
+
+    axios.get(ep, { params: { name: searchQuery, expansion: expansionFilter, type: typeFilter, energy: energyTypeFilter } })
+        .then((response) => {
+            let cdata = response.data;
+            res.render('cards', { title: 'Cards', cdata, searchQuery, expansionFilter, typeFilter, energyTypeFilter });
+
+            console.log(req.query);
+        })
+        .catch((error) => {
+            console.error('Error fetching cards:', error);
+            res.status(500).send('Error fetching cards');
+        });
 });
+
+
+
+
+
+
 
 app.get('/card', (req, res) => {
-
     let item_id = req.query.details;
-    let endp = `http://localhost:4000/collections/${item_id}`;
+    let endp = `http://localhost:4000/cards/${item_id}`;
 
-    axios.get(endp).then((response) => {
-        res.send(response.data);
-    });
-
+    axios.get(endp)
+        .then((response) => {
+            let card = response.data;
+            console.log(card); // Log the card object to the console
+            res.render('card', { cdata: card });
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        });
 });
+
 
 
 // 404 Route: Must be last route here

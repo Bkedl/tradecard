@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pokécard Palace | Cards</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <%- include('partials/navbar') %>
+
+        <div class="container mt-5">
+            <!-- Search form -->
+            <form action="/cards" method="get" id="searchForm">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6 col-sm-8 col-12">
+
+                        <div class="form-group">
+                            <label for="pokemonNameSearchKey">Search Card Name</label>
+                            <input type="text" name="name" class="form-control" id="pokemonNameSearchKey"
+                                aria-describedby="emailHelp" value="<%= searchQuery %>">
+                            <!-- Set value for name input -->
+                        </div>
+                        <h3>Expansions</h3>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="expansion" value="Paldean Fates"
+                                id="expansionPaldeanFates" <% if (expansionFilter==='Paldean Fates' ) { %>checked<% } %>
+                                > <!-- Check if Paldean Fates is selected -->
+                                <label class="form-check-label" for="expansionPaldeanFates">
+                                    Paldean Fates
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="expansion" value="Cosmic Eclipse"
+                                id="expansionCosmicEclipse" <% if (expansionFilter==='Cosmic Eclipse' ) { %>checked<% }
+                                %>> <!-- Check if Cosmic Eclipse is selected -->
+                                <label class="form-check-label" for="expansionCosmicEclipse">
+                                    Cosmic Eclipse
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="expansion" value="Obsidian Flames"
+                                id="expansionObsidianFlames" <% if (expansionFilter==='Obsidian Flames' ) { %>checked<%
+                                } %>>
+                                <!-- Check if Obsidian is selected -->
+                                <label class="form-check-label" for="expansionObsidianFlames">
+                                    Obsidian Flames
+                                </label>
+                        </div>
+                        <h3>Card Type</h3>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="type" value="Pokémon" id="typePokemon"
+                                <% if (typeFilter==='Pokémon' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typePokemon">
+                                    Pokémon
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="type" value="Energy" id="typeEnergy"
+                                <% if (typeFilter==='Energy' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeEnergy">
+                                    Energy
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="type" value="Trainer" id="typeTrainer"
+                                <% if (typeFilter==='Trainer' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeTrainer">
+                                    Trainer
+                                </label>
+                        </div>
+                        <h3>Energy Types</h3>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="Grass" id="typeGrass"
+                                <% if (energyTypeFilter==='Grass' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeGrass">
+                                    Grass
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="Fire" id="typeFire" <%
+                                if (energyTypeFilter==='Fire' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeFire">
+                                    Fire
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="Lightning"
+                                id="typeLightning" <% if (energyTypeFilter==='Lightning' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeLightning">
+                                    Lightning
+                                </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="button" class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+                    </div>
+                </div>
+
+            </form>
+
+            <!-- Render cards -->
+            <div class="row">
+                <% cdata['data'].forEach((card)=> { %>
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <img src="<%= card.image_url %>" class="card-img-top img-right"
+                                    alt="<%= card.card_name %>">
+                                <h5 class="card-title">
+                                    <%= card.card_name %>
+                                </h5>
+                                <p class="card-text">Card Number: <%= card.card_number %>
+                                </p>
+                                <p class="card-text">Price: <%= card.price %>
+                                </p>
+                                <a href="/card?details=<%= card.card_id%>" class="btn btn-primary">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <%- include('partials/footer') %>
+
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+                integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+                integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+                crossorigin="anonymous"></script>
+            <script src="/js/clearfilters.js"></script>
+
+</body>
+
+</html>

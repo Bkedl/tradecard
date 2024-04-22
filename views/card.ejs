@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokécard Palace | Card</title>
-    <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome CSS -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Custom CSS -->
+
     <link rel="stylesheet" href="/styles/styles.css">
 
 <body>
@@ -29,25 +29,50 @@
                                         <h5 class="card-title">
                                             <%= card.card_name %>
                                         </h5>
+                                        <!-- no point in having all of these as an if, take out the ones you knowwill be filled in  -->
 
-                                        <p class="card-text">Card Type: <%= card.card_type %>
+                                        <p class="card-text">Card Type: <%= card.type %>
                                         </p>
 
+                                        <% if (card.energy_type_id) { %>
+                                            <p class="card-text">Energy Type: <%= card.energy_type %>
+                                            </p>
+                                            <% } %>
 
-                                        <p class="card-text">Energy Type: <%= card.energy_type %>
-                                        </p>
-                                        <p class="card-text">Hit Points: <%= card.hit_points %>
-                                        </p>
-                                        <p class="card-text">Card Number: <%= card.card_number %>
-                                        </p>
-                                        <p class="card-text">Price: <%= card.price %>
-                                        </p>
-                                        <p class="card-text">Expansion: <%= card.expansion %>
-                                        </p>
-                                        <p class="card-text">Rarity: <%= card.rarity %>
-                                        </p>
-                                        <p class="card-text">Series: <%= card.series %>
-                                        </p>
+                                                <% if (card.hit_points) { %>
+                                                    <p class="card-text">Hit Points: <%= card.hit_points %>
+                                                    </p>
+                                                    <% } %>
+
+                                                        <p class="card-text">Card Number: <%= card.card_number %>
+                                                        </p>
+
+
+                                                        <p class="card-text">Price: $<%= card.price %>
+                                                        </p>
+
+
+                                                        <p class="card-text">
+                                                            Set: <%= card.set %>
+                                                        </p>
+
+
+                                                        <p class="card-text">
+                                                            Rarity: <%= card.rarity %>
+                                                        </p>
+
+
+                                                        <p class="card-text">
+                                                            Series:
+                                                            <%= card.series %>
+                                                        </p>
+
+
+                                                        <p class="card-text">
+                                                            Description:
+                                                            <%= card.card_description %>
+                                                        </p>
+
                                     </div>
                                 </div>
                             </div>
@@ -59,10 +84,10 @@
 
 
 
-        <!-- Footer -->
+
         <%- include('partials/footer') %>
 
-            <!-- Bootstrap JS -->
+
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
                 crossorigin="anonymous"></script>

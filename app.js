@@ -55,17 +55,22 @@ app.get('/contact', log_data, browser_lang, (req, res) => {
 
 app.get('/cards', (req, res) => {
     let ep = `http://localhost:4000/cards/`;
-    let searchQuery = req.query.name || ''; // Extract search query from request
-    let expansionFilter = req.query.expansion || ''; // Extract expansion filter from request
-    let typeFilter = req.query.type || ''; // Extract card type filter from request
-    let energyTypeFilter = req.query.energy || ''; // Extract energy type filter from request
+    let searchQuery = req.query.name || ''; // Extract search query from request first of all 
+    let expansionFilter = req.query.expansion || '';
+    let typeFilter = req.query.type || '';
+    let energyTypeFilter = req.query.energy || '';
+    let rarityFilter = req.query.rarity || '';
+    let stageFilter = req.query.stage || '';
+    let seriesFilter = req.query.series || '';
+    let sortOption = req.query.sortOption || '';
 
-    axios.get(ep, { params: { name: searchQuery, expansion: expansionFilter, type: typeFilter, energy: energyTypeFilter } })
+
+    axios.get(ep, { params: { name: searchQuery, expansion: expansionFilter, type: typeFilter, energy: energyTypeFilter, rarity: rarityFilter, stage: stageFilter, series: seriesFilter, sortOption: sortOption } })
         .then((response) => {
             let cdata = response.data;
-            res.render('cards', { title: 'Cards', cdata, searchQuery, expansionFilter, typeFilter, energyTypeFilter });
+            res.render('cards', { title: 'Cards', cdata, searchQuery, expansionFilter, typeFilter, energyTypeFilter, rarityFilter, stageFilter, seriesFilter, sortOption });
 
-            console.log(req.query);
+
         })
         .catch((error) => {
             console.error('Error fetching cards:', error);
@@ -86,7 +91,7 @@ app.get('/card', (req, res) => {
     axios.get(endp)
         .then((response) => {
             let card = response.data;
-            console.log(card); // Log the card object to the console
+            console.log(card);
             res.render('card', { cdata: card });
         })
         .catch((error) => {

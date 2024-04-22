@@ -13,11 +13,11 @@
 
 <body>
 
-    <!-- Navbar -->
+
     <%- include('partials/navbar') %>
 
         <div class="container mt-5">
-            <!-- Search form -->
+
             <form action="/cards" method="get" id="searchForm">
                 <div class="row">
                     <div class="col-lg-5 col-md-6 col-sm-8 col-12">
@@ -26,78 +26,289 @@
                             <label for="pokemonNameSearchKey">Search Card Name</label>
                             <input type="text" name="name" class="form-control" id="pokemonNameSearchKey"
                                 aria-describedby="emailHelp" value="<%= searchQuery %>">
-                            <!-- Set value for name input -->
+
                         </div>
-                        <h3>Expansions</h3>
+
+
+
+
+                        <h3>Series</h3>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="expansion" value="Paldean Fates"
-                                id="expansionPaldeanFates" <% if (expansionFilter==='Paldean Fates' ) { %>checked<% } %>
-                                > <!-- Check if Paldean Fates is selected -->
+                            <input class="form-check-input" type="checkbox" name="series" value="1" id="seriesScarlet"
+                                <% if (seriesFilter==='1' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="seriesScarlet">
+                                    Scarlet & Violet Series
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="series" value="2" id="seriesSun" <% if
+                                (seriesFilter==='2' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="seriesSun">
+                                    Sun & Moon Series
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="series" value="3" id="seriesXY" <% if
+                                (seriesFilter==='3' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="seriesXY">
+                                    XY Series
+                                </label>
+                        </div>
+
+
+
+
+
+                        <h3>Sets</h3>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="expansion" value="1"
+                                id="expansionPaldeanFates" <% if (expansionFilter==='1' ) { %>checked<% } %>
                                 <label class="form-check-label" for="expansionPaldeanFates">
                                     Paldean Fates
                                 </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="expansion" value="Cosmic Eclipse"
-                                id="expansionCosmicEclipse" <% if (expansionFilter==='Cosmic Eclipse' ) { %>checked<% }
-                                %>> <!-- Check if Cosmic Eclipse is selected -->
+                            <input class="form-check-input" type="checkbox" name="expansion" value="2"
+                                id="expansionTemporalForces" <% if (expansionFilter==='2' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="expansionTemporalForces">
+                                    Temporal Forces
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="expansion" value="3"
+                                id="expansionCosmicEclipse" <% if (expansionFilter==='3' ) { %>checked<% } %>>
                                 <label class="form-check-label" for="expansionCosmicEclipse">
                                     Cosmic Eclipse
                                 </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="expansion" value="Obsidian Flames"
-                                id="expansionObsidianFlames" <% if (expansionFilter==='Obsidian Flames' ) { %>checked<%
-                                } %>>
-                                <!-- Check if Obsidian is selected -->
-                                <label class="form-check-label" for="expansionObsidianFlames">
-                                    Obsidian Flames
+                            <input class="form-check-input" type="checkbox" name="expansion" value="4"
+                                id="expansionHiddenFates" <% if (expansionFilter==='4' ) { %>checked<% } %>
+                                <label class="form-check-label" for="expansionHiddenFates">
+                                    Hidden Fates
                                 </label>
                         </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="expansion" value="5"
+                                id="expansionAncientOrigins" <% if (expansionFilter==='5' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="expansionAncientOrigins">
+                                    Ancient Origins
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="expansion" value="6" id="expansionXY"
+                                <% if (expansionFilter==='6' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="expansionXY">
+                                    XY
+                                </label>
+                        </div>
+
+
+
+
+
                         <h3>Card Type</h3>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="type" value="Pokémon" id="typePokemon"
-                                <% if (typeFilter==='Pokémon' ) { %>checked<% } %>>
+                            <input class="form-check-input" type="checkbox" name="type" value="1" id="typePokemon" <% if
+                                (typeFilter==='1' ) { %>checked<% } %>>
                                 <label class="form-check-label" for="typePokemon">
                                     Pokémon
                                 </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="type" value="Energy" id="typeEnergy"
-                                <% if (typeFilter==='Energy' ) { %>checked<% } %>>
+                            <input class="form-check-input" type="checkbox" name="type" value="2" id="typeEnergy" <% if
+                                (typeFilter==='2' ) { %>checked<% } %>>
                                 <label class="form-check-label" for="typeEnergy">
                                     Energy
                                 </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="type" value="Trainer" id="typeTrainer"
-                                <% if (typeFilter==='Trainer' ) { %>checked<% } %>>
+                            <input class="form-check-input" type="checkbox" name="type" value="3" id="typeTrainer" <% if
+                                (typeFilter==='3' ) { %>checked<% } %>>
                                 <label class="form-check-label" for="typeTrainer">
                                     Trainer
                                 </label>
                         </div>
-                        <h3>Energy Types</h3>
+
+
+
+                        <h3>Energy</h3>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="energy" value="Grass" id="typeGrass"
-                                <% if (energyTypeFilter==='Grass' ) { %>checked<% } %>>
+                            <input class="form-check-input" type="checkbox" name="energy" value="1" id="typeColorless"
+                                <% if (energyTypeFilter==='1' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeColorless">
+                                    Colorless
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="2" id="typeDarkness" <%
+                                if (energyTypeFilter==='2' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeDarkness">
+                                    Darkness
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="3" id="typeFighting" <%
+                                if (energyTypeFilter==='3' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeFighting">
+                                    Fighting
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="4" id="typeGrass" <% if
+                                (energyTypeFilter==='4' ) { %>checked<% } %>>
                                 <label class="form-check-label" for="typeGrass">
                                     Grass
                                 </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="energy" value="Fire" id="typeFire" <%
-                                if (energyTypeFilter==='Fire' ) { %>checked<% } %>>
+                            <input class="form-check-input" type="checkbox" name="energy" value="5" id="typeLightning"
+                                <% if (energyTypeFilter==='5' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeLightning">
+                                    Lightning
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="6" id="typeMetal" <% if
+                                (energyTypeFilter==='6' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeMetal">
+                                    Metal
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="7" id="typeDragon" <%
+                                if (energyTypeFilter==='7' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeDragon">
+                                    Dragon
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="8" id="typePsychic" <%
+                                if (energyTypeFilter==='8' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typePsychic">
+                                    Psychic
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="9" id="typeFire" <% if
+                                (energyTypeFilter==='9' ) { %>checked<% } %>>
                                 <label class="form-check-label" for="typeFire">
                                     Fire
                                 </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="energy" value="Lightning"
-                                id="typeLightning" <% if (energyTypeFilter==='Lightning' ) { %>checked<% } %>>
-                                <label class="form-check-label" for="typeLightning">
-                                    Lightning
+                            <input class="form-check-input" type="checkbox" name="energy" value="10" id="typeWater" <%
+                                if (energyTypeFilter==='10' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeWater">
+                                    Water
                                 </label>
                         </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="energy" value="11" id="typeFairy" <%
+                                if (energyTypeFilter==='11' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="typeFairy">
+                                    Fairy
+                                </label>
+                        </div>
+
+
+
+                        <h3>Rarity</h3>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rarity" value="1" id="rarityCommon" <%
+                                if (rarityFilter==='1' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="rarityCommon">
+                                    Common
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rarity" value="2" id="rarityUncommon"
+                                <% if (rarityFilter==='2' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="rarityUncommon">
+                                    Uncommon
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rarity" value="3" id="rarityRare" <%
+                                if (rarityFilter==='3' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="rarityRare">
+                                    Rare
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rarity" value="4"
+                                id="rarityDoubleRare" <% if (rarityFilter==='4' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="rarityDoubleRare">
+                                    Double Rare
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rarity" value="5" id="rarityShinyRare"
+                                <% if (rarityFilter==='5' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="rarityShinyRare">
+                                    Shiny Rare
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rarity" value="6" id="rarityHyperRare"
+                                <% if (rarityFilter==='6' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="rarityHyperRare">
+                                    Hyper Rare
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rarity" value="7"
+                                id="rarityRareHoloGX" <% if (rarityFilter==='7' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="rarityRareHoloGX">
+                                    Rare Holo GX
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rarity" value="8"
+                                id="raritySecretRare" <% if (rarityFilter==='8' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="raritySecretRare">
+                                    Secret Rare
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rarity" value="9"
+                                id="rarityRareHoloEX" <% if (rarityFilter==='9' ) { %>checked<% } %>>
+                                <label class="form-check-label" for="rarityRareHoloEX">
+                                    Rare Holo EX
+                                </label>
+                        </div>
+
+                        <br>
+
+
+                        <div class="row">
+                            <div class="col-sm-4 mt-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sortOption" id="sortAsc"
+                                        value="asc" <% if (sortOption==='asc' ) { %>checked<% } %>>
+                                        <label class="form-check-label" for="sortAsc">Sort Price Ascending</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sortOption" id="sortDesc"
+                                        value="desc" <% if (sortOption==='desc' ) { %>checked<% } %>>
+                                        <label class="form-check-label" for="sortDesc">Sort Price Descending</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sortOption" id="sortAZ"
+                                        value="alpha_asc" <% if (sortOption==='alpha_asc' ) { %>checked<% } %>>
+                                        <label class="form-check-label" for="sortAZ">Sort Alphabetical A-Z</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sortOption" id="sortZA"
+                                        value="alpha_desc" <% if (sortOption==='alpha_desc' ) { %>checked<% } %>>
+                                        <label class="form-check-label" for="sortZA">Sort Alphabetical Z-A</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
 
                         <button type="submit" class="btn btn-primary">Search</button>
                         <button type="button" class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
@@ -106,7 +317,7 @@
 
             </form>
 
-            <!-- Render cards -->
+
             <div class="row">
                 <% cdata['data'].forEach((card)=> { %>
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
@@ -117,9 +328,8 @@
                                 <h5 class="card-title">
                                     <%= card.card_name %>
                                 </h5>
-                                <p class="card-text">Card Number: <%= card.card_number %>
-                                </p>
-                                <p class="card-text">Price: <%= card.price %>
+
+                                <p class="card-text">$<%= card.price %>
                                 </p>
                                 <a href="/card?details=<%= card.card_id%>" class="btn btn-primary">Details</a>
                             </div>

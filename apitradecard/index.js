@@ -32,52 +32,62 @@ connection.getConnection((err) => {
 // using cards and filtering 
 
 app.get('/cards', (req, res) => {
-    // add things here to extract from the searc url i have 
     let searchQuery = req.query.name || '';
     let expansionFilter = req.query.expansion || '';
     let typeFilter = req.query.type || '';
     let energyTypeFilter = req.query.energy || '';
     let rarityFilter = req.query.rarity || '';
-    let seriesFilter = req.query.series || '';
     let stageFilter = req.query.stage || '';
-    let illustratorFilter = req.query.illustrator || '';
+    let seriesFilter = req.query.series || '';
+    let sortOption = req.query.sortOption || '';
 
-    let allcards = `SELECT *
-                    FROM card`;
+    // / set as it is a reserved word so this is the only work around i can find 
+    let allcards = `SELECT card.*, rarity.rarity, energy_type.energy, \`set\`.set, series.series, card_type.type
+    FROM card
+    JOIN rarity ON card.rarity_id = rarity.rarity_id
+    LEFT JOIN energy_type ON card.energy_type_id = energy_type.energy_type_id
+    JOIN \`set\` ON card.set_id = \`set\`.set_id
+    JOIN series ON card.series_id = series.series_id
+    JOIN card_type ON card.card_type_id = card_type.card_type_id`;
 
-    //WHERE if searchQuery 
+
+
+
     if (searchQuery) {
-        allcards += ` WHERE card_name LIKE '%${searchQuery}%'`;
+        allcards += ` WHERE card.card_name LIKE '%${searchQuery}%'`;
     }
 
-    //AND if expansionFilter
     if (expansionFilter) {
-        if (searchQuery) {
-            allcards += ` AND expansion='${expansionFilter}'`;
-        } else {
-            allcards += ` WHERE expansion='${expansionFilter}'`;
-        }
+        allcards += searchQuery ? ` AND card.set_id='${expansionFilter}'` : ` WHERE card.set_id='${expansionFilter}'`;
     }
 
-    //same as above 
     if (typeFilter) {
-        if (searchQuery || expansionFilter) {
-            allcards += ` AND card_type='${typeFilter}'`;
-        } else {
-            allcards += ` WHERE card_type='${typeFilter}'`;
-        }
+        allcards += searchQuery || expansionFilter ? ` AND card.card_type_id='${typeFilter}'` : ` WHERE card.card_type_id='${typeFilter}'`;
     }
 
-    // same as above 
     if (energyTypeFilter) {
-        if (searchQuery || expansionFilter || typeFilter) {
-            allcards += ` AND energy_type='${energyTypeFilter}'`;
-        } else {
-            allcards += ` WHERE energy_type='${energyTypeFilter}'`;
-        }
+        allcards += searchQuery || expansionFilter || typeFilter ? ` AND card.energy_type_id='${energyTypeFilter}'` : ` WHERE card.energy_type_id='${energyTypeFilter}'`;
     }
 
-    // connetion for this so this is the  end of the cards page route
+    if (rarityFilter) {
+        allcards += searchQuery || expansionFilter || typeFilter || energyTypeFilter ? ` AND card.rarity_id='${rarityFilter}'` : ` WHERE card.rarity_id='${rarityFilter}'`;
+    }
+
+    if (seriesFilter) {
+        allcards += searchQuery || expansionFilter || typeFilter || energyTypeFilter || rarityFilter ? ` AND card.series_id='${seriesFilter}'` : ` WHERE card.series_id='${seriesFilter}'`;
+    }
+
+    if (sortOption === 'asc') {
+        allcards += ` ORDER BY price ASC`;
+    } else if (sortOption === 'desc') {
+        allcards += ` ORDER BY price DESC`;
+    } else if (sortOption === 'alpha_asc') {
+        allcards += ` ORDER BY card_name ASC`;
+    } else if (sortOption === 'alpha_desc') {
+        allcards += ` ORDER BY card_name DESC`;
+    }
+
+
     connection.query(allcards, (err, data) => {
         if (err) {
             console.error('Error fetching collections:', err);
@@ -101,9 +111,14 @@ app.get('/cards', (req, res) => {
 
 app.get('/cards/:rowid', (req, res) => {
     let r_id = req.params.rowid;
-    let getburger = `SELECT *
-                       FROM card WHERE card_id=${r_id}`;
-    connection.query(getburger, (err, data) => {
+    let getcard = `SELECT card.*, rarity.rarity, energy_type.energy, \`set\`.set, series.series, card_type.type
+    FROM card
+    JOIN rarity ON card.rarity_id = rarity.rarity_id
+    LEFT JOIN energy_type ON card.energy_type_id = energy_type.energy_type_id
+    JOIN \`set\` ON card.set_id = \`set\`.set_id
+    JOIN series ON card.series_id = series.series_id
+    JOIN card_type ON card.card_type_id = card_type.card_type_id WHERE card_id=${r_id}`;
+    connection.query(getcard, (err, data) => {
         if (err) throw err;
         res.json({ data });
     });

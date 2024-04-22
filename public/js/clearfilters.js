@@ -6,6 +6,10 @@ function clearFilters() {
         checkbox.checked = false;
     });
 
+    // Clear radio buttons
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+    });
+
     document.getElementById('searchForm').submit(); // Submit the form to clear filters
 }
- 

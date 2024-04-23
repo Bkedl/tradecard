@@ -52,11 +52,11 @@ app.get('/contact', log_data, browser_lang, (req, res) => {
 
 
 // USING API HERE 
-
+// expansion -> set as adjusted db 
 app.get('/cards', (req, res) => {
     let ep = `http://localhost:4000/cards/`;
     let searchQuery = req.query.name || ''; // Extract search query from request first of all 
-    let expansionFilter = req.query.expansion || '';
+    let setFilter = req.query.set || '';
     let typeFilter = req.query.type || '';
     let energyTypeFilter = req.query.energy || '';
     let rarityFilter = req.query.rarity || '';
@@ -64,11 +64,25 @@ app.get('/cards', (req, res) => {
     let seriesFilter = req.query.series || '';
     let sortOption = req.query.sortOption || '';
 
+    // added for multiquery for thwe one param 
+    let params = {
+        name: searchQuery,
+        sortOption: sortOption
+    };
 
-    axios.get(ep, { params: { name: searchQuery, expansion: expansionFilter, type: typeFilter, energy: energyTypeFilter, rarity: rarityFilter, stage: stageFilter, series: seriesFilter, sortOption: sortOption } })
+    // adding the multi if s
+    if (setFilter) params.expansion = Array.isArray(setFilter) ? setFilter : [setFilter];
+    if (typeFilter) params.type = Array.isArray(typeFilter) ? typeFilter : [typeFilter];
+    if (energyTypeFilter) params.energy = Array.isArray(energyTypeFilter) ? energyTypeFilter : [energyTypeFilter];
+    if (rarityFilter) params.rarity = Array.isArray(rarityFilter) ? rarityFilter : [rarityFilter];
+    if (seriesFilter) params.series = Array.isArray(seriesFilter) ? seriesFilter : [seriesFilter];
+
+
+
+    axios.get(ep, { params: { name: searchQuery, set: setFilter, type: typeFilter, energy: energyTypeFilter, rarity: rarityFilter, stage: stageFilter, series: seriesFilter, sortOption: sortOption } })
         .then((response) => {
             let cdata = response.data;
-            res.render('cards', { title: 'Cards', cdata, searchQuery, expansionFilter, typeFilter, energyTypeFilter, rarityFilter, stageFilter, seriesFilter, sortOption });
+            res.render('cards', { title: 'Cards', cdata, searchQuery, setFilter, typeFilter, energyTypeFilter, rarityFilter, stageFilter, seriesFilter, sortOption });
 
 
         })

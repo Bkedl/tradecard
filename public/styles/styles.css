@@ -14,6 +14,18 @@
     color: #9c4942;
 }
 
+
+/* https://stackoverflow.com/questions/23333231/bootstrap-button-shows-blue-outline-when-clicked apply this at somepoint */
+.btn:focus,
+.btn:active {
+    outline: none !important;
+    box-shadow: none;
+}
+
+
+
+
+
 .container .btn.btn-primary {
     background-color: #f15b4e;
     border-color: transparent;
@@ -23,6 +35,7 @@
     background-color: #9c4942;
     border-color: transparent;
 }
+
 
 .jumbotron {
     color: #ffffff;
@@ -175,4 +188,55 @@ body {
 
 .error-section {
     margin-top: 200px;
+}
+
+.filters-section {
+    padding-left: 20px;
+}
+
+/* again this is not working as btn-primary is not having css applied... */
+.filters-section .btn.btn-primary {
+    background-color: #f15b4e;
+    border-color: transparent;
+}
+
+.filters-section .btn.btn-primary:hover {
+    background-color: #9c4942;
+    border-color: transparent;
+}
+
+.btn-margin {
+    margin-right: 10px;
+}
+
+.card {
+    border: none;
+}
+
+.cards-section .btn.btn-primary {
+    background-color: #f15b4e;
+    border-color: transparent;
+}
+
+.cards-section .btn.btn-primary:hover {
+    background-color: #9c4942;
+    border-color: transparent;
+}
+
+.jum-card {
+    background-image: url('/images/cards-jum.png');
+    background-size: cover;
+}
+
+.ital-text {
+    font-style: italic;
+}
+
+.card-single {
+    color: #ffffff;
+}
+
+.card-bg {
+    background-image: url('/images/card-bg.png');
+    background-size: cover;
 }

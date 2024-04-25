@@ -11,45 +11,102 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <link rel="stylesheet" href="/styles/styles.css">
+</head>
 
 <body>
     <%- include('partials/navbar') %>
 
 
         <div class="jumbotron">
-            <h1 class="display-4">Welcome to Pokécard Palace</h1>
+            <h1 class="display-4">Welcome back <%= userdata.user_name %> to Pokécard Palace</h1>
             <p class="lead">Manage your Pokémon card collections and wishlist here.</p>
         </div>
 
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <a href="/collections" class="btn btn-primary">My Collections</a>
-                </div>
-                <div class="col-md-6">
-                    <a href="/wishlist" class="btn btn-primary">My Wishlist</a>
+
+
+        <!-- ADMIN STUFF GOES HERE  -->
+        <% if (userdata.role==='admin' ) { %>
+
+
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-4">
+                    <h2 class="text-center mt-4">A D M I N &nbsp;&nbsp; S T A T U S</h2>
+                    <form action="/deleteCard" method="POST">
+                        <h2 class="text-center mt-4">Delete Card</h2>
+                        <hr class="my-4 short-hr">
+                        <div class="form-group">
+                            <label for="deleteCardName">Card Name</label>
+                            <input type="varchar" class="form-control" id="cname" name="cardname"
+                                placeholder="Enter Card Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="deleteCardSetID">Set ID</label>
+                            <input type="decimal" class="form-control" id="setID" name="cardset"
+                                placeholder="1 = PF / 2 = TF / 3 = CE / 4 = HF / 5 = AO / 6 = XY">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Delete Card</button>
+                    </form>
                 </div>
             </div>
-        </div>
+            <% } %>
 
 
-        <div class="container mt-4">
-            <button class="btn btn-danger btn-lg btn-block">Logout</button>
-        </div>
-
-        <%- include('partials/footer') %>
 
 
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-                crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-                integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-                crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-                integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-                crossorigin="anonymous"></script>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="/collections" class="btn btn-primary">My Collections</a>
+                        </div>
+                    </div>
+                </div>
+
+                <form action="/deleteAccount" method="POST">
+                    <h2 class="text-center mt-4">Delete Account</h2>
+                    <hr class="my-4 short-hr">
+                    <div class="form-group">
+                        <label for="deleteAccEmail">Enter Email</label>
+                        <input type="email" class="form-control" id="email" name="delEmail" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="deleteAccPassword">Enter Password</label>
+                        <input type="password" class="form-control" id="password" name="delPassword"
+                            placeholder="Enter Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Delete Account</button>
+                </form>
+
+
+                <div class="container mt-4">
+                    <a href="/logout" class="btn btn-primary">Log Out</a>
+                </div>
+
+                <%- include('partials/footer') %>
+
+
+                    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                        crossorigin="anonymous"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+                        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+                        crossorigin="anonymous"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+                        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+                        crossorigin="anonymous"></script>
+                    <script>
+                        //  if the url contains a query parameter indicating successful registration
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const deletecard = urlParams.get('deleted');
+                        // ref! its query params in app.js and 
+                        // idf reg parameter is present, display a popup message
+                        if (deletecard === 'true') {
+                            alert("Card Deleted Successfully");
+                        }
+                    </script>
+
 
 
 

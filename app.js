@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // reagrding the session thinsga nd user authetnication here is the code 
 // ref index.js for  route to get the query from the db from thie api 
-const { authenticateUser, getUserById, registerUser } = require('./apitradecard/index.js');
+const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount } = require('./apitradecard/index.js');
 
 const cookieParser = require('cookie-parser');
 const sessions = require('express-session');
@@ -198,6 +198,8 @@ app.post('/signin', (req, res) => {
     });
 });
 
+
+
 // Dashboard route
 app.get('/dashboard', (req, res) => {
     const sessionobj = req.session;
@@ -230,12 +232,13 @@ const isLoggedIn = (req, res, nextthing) => {
 
 
 // isLoggedin midleware to collct and wish
+// CODE NOW HERE TO make sure you can just type in url for the collectins etc, it is linked to a user instead
 app.get('/collections', isLoggedIn, (req, res) => {
     res.render("collections")
 });
 
-app.get('/wishlist', isLoggedIn, (req, res) => {
-    res.render("wishlist")
+app.get('/account', isLoggedIn, (req, res) => {
+    res.render("accmanagement")
 });
 
 
@@ -258,18 +261,72 @@ app.post('/signup', (req, res) => {
     });
 });
 
+// lougout route (ripped off)
+app.get('/logout', (req, res) => {
+    // destory sessio n
+    req.session.destroy((err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Error occurred during logout');
+        } else {
+
+            res.redirect('/');
+        }
+    });
+});
 
 
+
+// deleeting  card via admin stayus 
+app.post('/deleteCard', (req, res) => {
+    const cname = req.body.cardname;
+    const setID = req.body.cardset;
+
+    deleteCardAdmin(cname, setID, (err, result) => {
+        if (err) {
+            console.error('Error occurred whenn deleting card:', err);
+            res.redirect('/dashboard');
+        } else {
+
+            res.redirect('/dashboard?deleted=true'); // redirect  prama success
+
+        }
+    });
+});
+
+
+// deleeting  card via admin stayus 
+app.post('/deleteAccount', (req, res) => {
+    const email = req.body.delEmail;
+    const password = req.body.delPassword;
+
+    deleteAccount(email, password, (err, result) => {
+
+        if (err) {
+            console.error('Error occurred when deleting account:', err);
+            // Provide error feedback to the user
+            res.redirect('/dashboard'); // Redirect to an appropriate page
+        } else {
+            // End the session
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error('Error occurred during logout:', err);
+                    // Handle error appropriately
+                }
+                // Redirect to a suitable landing page
+                res.redirect('/signin?deleteaccount=true');
+            });
+        }
+    });
+});
 
 
 
 // need to implement password bcrypt and doing it and also put it in so like you can check a password when session is there 
 
 // also need an admin role to add cards to database i.e. automatically added as admin or not and if admin staius given then whe  log in they have access to anotherthing indashboard to add cards or remove cards 
+// i could do it so if role = 2 (admin) then render dashboardAdmin.ejs that is the same but has a button that takes to a card post page
 
-// also a way to logout 
-
-// have collection sand wish list on dashboard only 
 
 
 

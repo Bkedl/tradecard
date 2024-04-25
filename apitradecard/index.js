@@ -21,6 +21,7 @@ const connection = mysql.createPool({
 connection.getConnection((err) => {
     if (err) return console.log(err.message);
     console.log("connected to local mysql db using .env properties");
+    console.log("Hello from inex.js");
 });
 
 
@@ -159,10 +160,10 @@ app.get('/cards/:rowid', (req, res) => {
 
 
 
-
-
-
-
+// suing function s here as '/signin is post and not a get req from databse plsu there is a multitude of things 
+// that use these codes e.g. wishlist etc where i can set up middle ware 
+// could be good to ref my need for this - i.e. these could be put in front end i.e. app.js but i want all my queries ot be ibn one place 
+// or move to front end
 
 // sessions and authenitcaiton stufff here:
 
@@ -202,9 +203,35 @@ const registerUser = (email, username, password, callback) => {
     });
 };
 
+// Function to deletee a card 
+const deleteCardAdmin = (cname, setID, callback) => {
+    const deleteCardQuery = `DELETE FROM card WHERE card_name = ? AND set_id = ?`;
+    connection.query(deleteCardQuery, [cname, setID], (err, result) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+};
+
+
+// deleting account 
+const deleteAccount = (useremail, userspassword, callback) => {
+    const deleteCardQuery = `DELETE FROM user WHERE email = ? AND password = ?`;
+    connection.query(deleteCardQuery, [useremail, userspassword], (err, result) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+};
+
+
 module.exports = {
     authenticateUser,
-    getUserById, registerUser
+    getUserById, registerUser, deleteCardAdmin, deleteAccount
 };
 
 

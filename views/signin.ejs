@@ -75,7 +75,7 @@
                         </div>
 
                         <!-- compexity of sigin ejs was not working in the actual session stuff, code removed for now of signup.js (script tage also removed for now) -->
-                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
                     </form>
                 </div>
             </div>
@@ -111,6 +111,16 @@
                     // and ref 
                     // alert for sing in error 
                     alert("Failed to sign in. Please check your credentials and try again.");
+                }
+            </script>
+            <script>
+                const urlParama2 = new URLSearchParams(window.location.search);
+                const deleteaccount = urlParama2.get('deleteaccount');
+                if (deleteaccount === 'true') {
+
+                    // and ref 
+                    // alert for sing in error 
+                    alert("Account Deleted Successfully");
                 }
             </script>
 

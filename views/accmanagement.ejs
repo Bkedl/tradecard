@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pokécard Palace | Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 mb-4">
+                <form action="/updatePassword" method="POST">
+                    <h2 class="text-center mt-4">U P D A T E &nbsp;&nbsp; P A S S W O R D</h2>
+                    <hr class="my-4 short-hr">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" class="form-control" id="currentPassword" name="currentPass"
+                            placeholder="Enter Current Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" name="newPass"
+                            placeholder="Enter New Password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Update Password</button>
+                </form>
+            </div>
+        </div>
+
+
+
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 mb-4">
+                <form action="/updateEmail" method="POST">
+                    <h2 class="text-center mt-4">U P D A T E &nbsp;&nbsp; E M A I L</h2>
+                    <hr class="my-4 short-hr">
+                    <div class="form-group">
+                        <label for="currentEmail">Current Email</label>
+                        <input type="email" class="form-control" id="currentEmail" name="currentEm"
+                            placeholder="Enter Current Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="newEmail">New Email</label>
+                        <input type="email" class="form-control" id="newEmail" name="newEm"
+                            placeholder="Enter New Email">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Update Email</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 mb-4">
+                <form action="/deleteAccount" method="POST">
+                    <h2 class="text-center mt-4">D E L E T E &nbsp;&nbsp; A C C O U N T</h2>
+
+
+                    <button type="submit" class="btn btn-primary btn-block">Delete Account</button>
+                </form>
+            </div>
+        </div>
+
+        <%- include('partials/footer') %>
+
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+                integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+                integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+                crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

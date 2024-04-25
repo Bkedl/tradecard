@@ -25,6 +25,9 @@ connection.getConnection((err) => {
 
 
 
+
+
+
 // using cards and filtering 
 
 app.get('/cards', (req, res) => {
@@ -112,6 +115,13 @@ app.get('/cards', (req, res) => {
 
 
 
+
+
+
+
+
+
+
 // think i can leave the card stuff now as dont need to add 
 
 
@@ -132,6 +142,96 @@ app.get('/cards/:rowid', (req, res) => {
     });
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// sessions and authenitcaiton stufff here:
+
+// Function to authenticate user by email and password
+const authenticateUser = (email, password, callback) => {
+    const getEmailPassword = `SELECT * FROM user WHERE email = ? AND password = ?`;
+    connection.query(getEmailPassword, [email, password], (err, rows) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    });
+};
+
+// Function to get user by user_id
+const getUserById = (uid, callback) => {
+    const getUserQuery = `SELECT * FROM user WHERE user_id = ?`;
+    connection.query(getUserQuery, [uid], (err, rows) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    });
+};
+
+// Function to register a new user
+const registerUser = (email, username, password, callback) => {
+    const createUserQuery = `INSERT INTO user (email, user_name, password) VALUES (?, ?, ?)`;
+    connection.query(createUserQuery, [email, username, password], (err, result) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+};
+
+module.exports = {
+    authenticateUser,
+    getUserById, registerUser
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const server = app.listen(PORT, () => {
     console.log(`API started on port ${server.address().port}`);

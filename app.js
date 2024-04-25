@@ -5,6 +5,47 @@ const PORT = 5500;
 const axios = require("axios");
 app.use(express.urlencoded({ extended: true }));
 
+
+
+
+
+
+
+
+
+// reagrding the session thinsga nd user authetnication here is the code 
+// ref index.js for  route to get the query from the db from thie api 
+const { authenticateUser, getUserById, registerUser } = require('./apitradecard/index.js');
+
+const cookieParser = require('cookie-parser');
+const sessions = require('express-session');
+
+const oneHour = 1000 * 60 * 60 * 1;
+
+app.use(cookieParser());
+
+app.use(sessions({
+    secret: "myshows14385899",
+    saveUninitialized: true,
+    cookie: { maxAge: oneHour },
+    resave: false
+}));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.set('view engine', 'ejs');
 
 
@@ -37,8 +78,8 @@ app.get('/', log_data, browser_lang, (req, res) => {
     res.render("index", { title: 'Pokécard Palace' })
 });
 
-app.get('/signup', log_data, browser_lang, (req, res) => {
-    res.render("signup")
+app.get('/signin', log_data, browser_lang, (req, res) => {
+    res.render("signin")
 });
 
 app.get('/contact', log_data, browser_lang, (req, res) => {
@@ -116,6 +157,122 @@ app.get('/card', (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ATTEMPTING SESSIOSN 
+
+// week 8 lab 08 ui login and sessiosn 
+// Route for signing up
+app.post('/signin', (req, res) => {
+    const userEmail = req.body.email;
+    const userPassword = req.body.password;
+
+    // authenticateUser fun called from index
+    authenticateUser(userEmail, userPassword, (err, rows) => {
+        if (err) {
+            console.error('Error occurred during authentication:', err);
+            res.redirect('/signin');
+        } else {
+            if (rows.length > 0) {
+                const sessionobj = req.session;
+                sessionobj.authen = rows[0].user_id;
+                res.redirect('/dashboard');
+            } else {
+                res.redirect('/signin?error=true'); // redirect error param 
+            }
+        }
+    });
+});
+
+// Dashboard route
+app.get('/dashboard', (req, res) => {
+    const sessionobj = req.session;
+    if (sessionobj.authen) {
+        const uid = sessionobj.authen;
+        getUserById(uid, (err, rows) => {
+            if (err) {
+                console.error('Error occurred while fetching user data:', err);
+                res.send('Internal Server Error');
+            } else {
+                const firstrow = rows[0];
+                res.render('dashboard', { userdata: firstrow });
+            }
+        });
+    } else {
+        res.render('denied');
+    }
+});
+
+
+// NOW ATTEMPTOING COLECTIONAND WISHLIST RESTIRCIOTN WITH MIDDELE ARE
+// func middelware to check use rlogged in 
+const isLoggedIn = (req, res, nextthing) => {
+    if (req.session.authen) { // authentication only work sif user logged in 
+        nextthing(); // if use rlogged in goto next thing 
+    } else {
+        res.render('denied');
+    }
+};
+
+
+// isLoggedin midleware to collct and wish
+app.get('/collections', isLoggedIn, (req, res) => {
+    res.render("collections")
+});
+
+app.get('/wishlist', isLoggedIn, (req, res) => {
+    res.render("wishlist")
+});
+
+
+// week 07 for post to sql, rest handing in index.js for queryr same as before 
+app.post('/signup', (req, res) => {
+    const email = req.body.upemail;
+    const username = req.body.username;
+    const password = req.body.uppassword;
+
+
+    registerUser(email, username, password, (err, result) => {
+        if (err) {
+            console.error('Error occurred during sign-up:', err);
+            res.redirect('/signin');
+        } else {
+
+            res.redirect('/signin?registered=true'); // redirect error prama 
+
+        }
+    });
+});
+
+
+
+
+
+
+// need to implement password bcrypt and doing it and also put it in so like you can check a password when session is there 
+
+// also need an admin role to add cards to database i.e. automatically added as admin or not and if admin staius given then whe  log in they have access to anotherthing indashboard to add cards or remove cards 
+
+// also a way to logout 
+
+// have collection sand wish list on dashboard only 
+
+
+
 // 404 Route: Must be last route here
 app.get('*', log_data, browser_lang, (req, res) => {
     res.render("404", { title: '404 Error' })
@@ -128,5 +285,6 @@ app.listen(PORT, (err) => {
         console.error('Error occurred while starting the server:', err);
     } else {
         console.log(`Server is running on http://localhost:${PORT}`);
+        console.log(`Hello from the app.js`)
     }
 });

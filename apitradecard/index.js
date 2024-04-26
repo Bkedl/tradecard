@@ -169,16 +169,50 @@ app.get('/cards/:rowid', (req, res) => {
 // sessions and authenitcaiton stufff here:
 
 // Function to authenticate user by email and password
+// const authenticateUser = (email, password, callback) => {
+//     const getEmailPassword = `SELECT * FROM user WHERE email = ?`;
+//     connection.query(getEmailPassword, [email, password], (err, rows) => {
+//         if (err) {
+//             callback(err, null);
+//         } else {
+//             callback(null, rows);
+//         }
+//     });
+// };
+
 const authenticateUser = (email, password, callback) => {
-    const getEmailPassword = `SELECT * FROM user WHERE email = ? AND password = ?`;
-    connection.query(getEmailPassword, [email, password], (err, rows) => {
+    const getEmail = `SELECT * FROM user WHERE email = ?`;
+    connection.query(getEmail, [email], async (err, rows) => {
         if (err) {
             callback(err, null);
         } else {
-            callback(null, rows);
+            console.log(rows);
+            if (rows.length === 0) {
+                callback(err)
+                return;
+            }
+            const hashedPassword = rows[0].password;
+            const passwordMatch = await bcrypt.compare(password, hashedPassword);
+            console.log(passwordMatch);
+            if (passwordMatch) {
+                callback(null, rows);
+            } else {
+                callback(new Error("Error, invalid user anem or password"));
+            }
         }
-    });
-};
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
 
 // Function to get user by user_id
 const getUserById = (uid, callback) => {
@@ -230,10 +264,10 @@ const addCardAdmin = (name, hitpoints, price, img, descr, type, set, series, ene
 };
 
 
-// deleting
-const deleteAccount = (useremail, userspassword, callback) => {
-    const deleteCardQuery = `DELETE FROM user WHERE email = ? AND password = ?`;
-    connection.query(deleteCardQuery, [useremail, userspassword], (err, result) => {
+// deleting (nno pasword as giving bother with bcrypt, also no where displays e ail is flogged in byt still not okay as can delete any account from it )
+const deleteAccount = (useremail, callback) => {
+    const deleteAcc = `DELETE FROM user WHERE email = ?`;
+    connection.query(deleteAcc, [useremail], (err, result) => {
         if (err) {
             callback(err, null);
         } else {

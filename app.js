@@ -181,22 +181,26 @@ app.get('/card', (req, res) => {
 app.post('/signin', (req, res) => {
     const userEmail = req.body.email;
     const userPassword = req.body.password;
-
-    // authenticateUser fun called from index
-    authenticateUser(userEmail, userPassword, (err, rows) => {
-        if (err) {
-            console.error('Error occurred during authentication:', err);
-            res.redirect('/signin');
-        } else {
-            if (rows.length > 0) {
-                const sessionobj = req.session;
-                sessionobj.authen = rows[0].user_id;
-                res.redirect('/dashboard');
+    try {
+        // authenticateUser fun called from index
+        authenticateUser(userEmail, userPassword, async (err, rows) => {
+            if (err) {
+                console.error('Error occurred during authentication:', err);
+                res.redirect('/signin');
             } else {
-                res.redirect('/signin?error=true'); // redirect error param 
+                console.log(rows);
+                if (rows != undefined && rows.length > 0) {
+                    const sessionobj = req.session;
+                    sessionobj.authen = rows[0].user_id;
+                    res.redirect('/dashboard');
+                } else {
+                    res.redirect('/signin?error=true'); // redirect error param 
+                }
             }
-        }
-    });
+        });
+    } catch {
+        res.redirect('/')
+    }
 });
 
 
@@ -244,16 +248,18 @@ app.get('/collections', isLoggedIn, (req, res) => {
 
 
 // week 07 for post to sql, rest handing in index.js for queryr same as before 
-app.post('/signup', (req, res) => { // added async
+app.post('/signup', async (req, res) => { // BCRYPT added async
     const email = req.body.upemail;
     const username = req.body.username;
-    const password = req.body.uppassword;
+    const password = await bcrypt.hash(req.body.uppassword, 10); // BCRYPT added await and done the hqash to 10 (salt)
 
+    console.log(password);
 
     registerUser(email, username, password, (err, result) => {
         if (err) {
             console.error('Error occurred during sign-up:', err);
             res.redirect('/signin');
+
         } else {
 
             res.redirect('/signin?registered=true'); // redirect error prama 
@@ -328,9 +334,8 @@ app.post('/addCard', (req, res) => {
 // deleeting  card via admin stayus 
 app.post('/deleteAccount', (req, res) => {
     const email = req.body.delEmail;
-    const password = req.body.delPassword;
 
-    deleteAccount(email, password, (err, result) => {
+    deleteAccount(email, (err, result) => {
 
         if (err) {
             console.error('Error occurred when deleting account:', err);

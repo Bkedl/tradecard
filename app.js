@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const PORT = 5500;
-const axios = require("axios");
+const axios = require('axios');
+const bcrypt = require('bcrypt');
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -15,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // reagrding the session thinsga nd user authetnication here is the code 
 // ref index.js for  route to get the query from the db from thie api 
-const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount } = require('./apitradecard/index.js');
+const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin } = require('./apitradecard/index.js');
 
 const cookieParser = require('cookie-parser');
 const sessions = require('express-session');
@@ -200,6 +201,8 @@ app.post('/signin', (req, res) => {
 
 
 
+
+
 // Dashboard route
 app.get('/dashboard', (req, res) => {
     const sessionobj = req.session;
@@ -237,13 +240,11 @@ app.get('/collections', isLoggedIn, (req, res) => {
     res.render("collections")
 });
 
-app.get('/account', isLoggedIn, (req, res) => {
-    res.render("accmanagement")
-});
+
 
 
 // week 07 for post to sql, rest handing in index.js for queryr same as before 
-app.post('/signup', (req, res) => {
+app.post('/signup', (req, res) => { // added async
     const email = req.body.upemail;
     const username = req.body.username;
     const password = req.body.uppassword;
@@ -260,6 +261,8 @@ app.post('/signup', (req, res) => {
         }
     });
 });
+
+
 
 // lougout route (ripped off)
 app.get('/logout', (req, res) => {
@@ -295,6 +298,33 @@ app.post('/deleteCard', (req, res) => {
 });
 
 
+// add a card 
+app.post('/addCard', (req, res) => {
+    const name = req.body.name;
+    const hitpoints = req.body.hp;
+    const price = req.body.price;
+    const img = req.body.image;
+    const descr = req.body.desc;
+    const type = req.body.type;
+    const set = req.body.set;
+    const series = req.body.series;
+    const energy = req.body.energy;
+    const rarity = req.body.rarity;
+
+
+    addCardAdmin(name, hitpoints, price, img, descr, type, set, series, energy, rarity, (err, result) => {
+        if (err) {
+            console.error('Error adding card', err);
+            res.redirect('/dashboard');
+        } else {
+
+            res.redirect('/dashboard?added=true'); // redirect error prama 
+
+        }
+    });
+});
+
+
 // deleeting  card via admin stayus 
 app.post('/deleteAccount', (req, res) => {
     const email = req.body.delEmail;
@@ -304,8 +334,8 @@ app.post('/deleteAccount', (req, res) => {
 
         if (err) {
             console.error('Error occurred when deleting account:', err);
-            // Provide error feedback to the user
-            res.redirect('/dashboard'); // Redirect to an appropriate page
+            //  error feedback to user 
+            res.redirect('/dashboard'); // redirect again with no messag e
         } else {
             // End the session
             req.session.destroy((err) => {
@@ -313,7 +343,7 @@ app.post('/deleteAccount', (req, res) => {
                     console.error('Error occurred during logout:', err);
                     // Handle error appropriately
                 }
-                // Redirect to a suitable landing page
+                // redirect Sigin with error message
                 res.redirect('/signin?deleteaccount=true');
             });
         }

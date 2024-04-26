@@ -234,9 +234,29 @@ body {
 
 .card-single {
     color: #ffffff;
+    padding-top: 100px;
+    padding-bottom: 100px;
 }
 
 .card-bg {
     background-image: url('/images/card-bg.png');
     background-size: cover;
+}
+
+.jum-dash {
+    background-image: url('/images/bg-dash.png');
+    background-size: cover;
+}
+
+.jum-denied {
+    background-color: #f15b4e;
+}
+
+.linksD a {
+    color: #fb9942;
+    text-decoration: none;
+}
+
+.linksD a:hover {
+    color: #ebe5e4;
 }

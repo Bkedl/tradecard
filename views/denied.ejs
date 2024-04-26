@@ -17,12 +17,34 @@
 
     <%- include('partials/navbar') %>
 
-        <div class="container">
-            <div class="alert alert-danger" role="alert">
-                Access denied, please <a href="/signin">sign in</a> to continue.
-            </div>
+
+
+        <div class="jumbotron text-center linksD jum-denied">
+            <h1 class="display-4">Members Only!</h1>
+
+            <hr class="my-4 short-hr">
+            <p class="lead">Your adventure stops here... For now... <br><br><a href="/signin">Sign in / Sign up</a> to
+                continue. </p>
         </div>
 
+
+        <div class="container my-4">
+            <div class="text-center mb-4">
+                <h2>Member Exclusives</h2>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+
+                    <p>Digitalize Your Collection</p>
+                    <p>Rate Member's Collections</p>
+                    <p>Like Cards and add to Wishlist</p>
+
+
+
+                </div>
+            </div>
+        </div>
 
         <%- include('partials/footer') %>
 

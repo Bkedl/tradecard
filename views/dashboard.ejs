@@ -17,10 +17,83 @@
     <%- include('partials/navbar') %>
 
 
-        <div class="jumbotron">
-            <h1 class="display-4">Welcome back <%= userdata.user_name %> to Pokécard Palace</h1>
-            <p class="lead">Manage your Pokémon card collections and wishlist here.</p>
+
+
+
+        <div class="jumbotron text-center jum-dash">
+            <h1 class="display-4">Welcome back <%= userdata.user_name %> to Pokécard Palace!</h1>
+
+            <hr class="my-4 short-hr">
+            <p class="lead">We're delighted to have you with us!</p>
         </div>
+
+
+
+
+
+        <div class="container mt-4 shadow-lg">
+            <div class="text-center mb-4">
+                <h2>Member Exclusives</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Browse Cards and add to Collections</h4>
+                    <p>Continue to explore our extensive collection of Pokémon cards. You can browse cards by set, type,
+                        rarity, and more. As a member, you can add a card to your collection. Simply create a collection
+                        by visiting the collection page, then click on the card and select "+".
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Rate Member's Collections</h4>
+                    <p>Discover other member's collections and rate them based on your preferences. Your ratings help
+                        other members find high-quality collections.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Like Cards and add to Wishlist</h4>
+                    <p>If you find a card you love but don't have yet, you can like it and add it to your wishlist. This
+                        helps you keep track of cards you want to acquire in the future.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Delete Account</h4>
+                    <p>If you no longer wish to use our platform, you have the option to delete your account. Please
+                        note that this action is irreversible and will permanently remove all your data from the
+                        platform.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-4 mt-2">
+                    <div class="text-center">
+                        <a href="/collections" class="btn btn-primary btn-block">My Collection</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <div class="text-center">
+                        <a href="/wishlist" class="btn btn-primary btn-block">My Wishlist</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <div class="text-center">
+                        <a href="/logout" class="btn btn-primary btn-block">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
 
@@ -28,61 +101,123 @@
         <!-- ADMIN STUFF GOES HERE  -->
         <% if (userdata.role==='admin' ) { %>
 
+            <!-- delketed care -->
+            <div class="container mt-4 shadow-lg">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 my-4">
 
+                        <form action="/deleteCard" method="POST">
+                            <h4 class="text-center mt-4">Delete Card</h4>
+                            <div class="form-group">
+                                <label for="deleteCardName">Card Name</label>
+                                <input type="varchar" class="form-control" id="cname" name="cardname"
+                                    placeholder="Enter Card Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="deleteCardSetID">Set ID</label>
+                                <input type="decimal" class="form-control" id="setID" name="cardset"
+                                    placeholder="1 = PF / 2 = TF / 3 = CE / 4 = HF / 5 = AO / 6 = XY">
+                            </div>
 
-            <div class="row justify-content-center">
-                <div class="col-md-6 mb-4">
-                    <h2 class="text-center mt-4">A D M I N &nbsp;&nbsp; S T A T U S</h2>
-                    <form action="/deleteCard" method="POST">
-                        <h2 class="text-center mt-4">Delete Card</h2>
-                        <hr class="my-4 short-hr">
-                        <div class="form-group">
-                            <label for="deleteCardName">Card Name</label>
-                            <input type="varchar" class="form-control" id="cname" name="cardname"
-                                placeholder="Enter Card Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="deleteCardSetID">Set ID</label>
-                            <input type="decimal" class="form-control" id="setID" name="cardset"
-                                placeholder="1 = PF / 2 = TF / 3 = CE / 4 = HF / 5 = AO / 6 = XY">
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-block">Delete Card</button>
-                    </form>
+                            <button type="submit" class="btn btn-secondary">Delete Card</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+
+
+
+
+            <!-- add card -->
+            <div class="container mt-4 shadow-lg">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 my-4">
+
+                        <form action="/addCard" method="POST">
+                            <h4 class="text-center mt-4">Add Card</h4>
+                            <div class="form-group">
+                                <label for="addName">Card Name</label>
+                                <input type="varchar" class="form-control" id="name" name="name"
+                                    placeholder="Enter Card Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="addHP">Hit Points</label>
+                                <input type="int" class="form-control" id="hp" name="hp" placeholder="Enter Hit Points">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="addPrice">Price</label>
+                                <input type="decimal" class="form-control" id="price" name="price"
+                                    placeholder="Enter Price">
+                            </div>
+                            <div class="form-group">
+                                <label for="addImage">Image URL</label>
+                                <input type="text" class="form-control" id="image" name="image"
+                                    placeholder="Enter Image URL">
+                            </div>
+                            <div class="form-group">
+                                <label for="addDecs">Card Description</label>
+                                <input type="text" class="form-control" id="desc" name="desc"
+                                    placeholder="Enter Description">
+                            </div>
+                            <div class="form-group">
+                                <label for="addType">Card Type</label>
+                                <input type="int" class="form-control" id="type" name="type"
+                                    placeholder="1 = Pokémon / 2 = Energy / 3 = Trainer">
+                            </div>
+                            <div class="form-group">
+                                <label for="addSet">Card Set</label>
+                                <input type="int" class="form-control" id="set" name="set"
+                                    placeholder="1 = PF / 2 = TF / 3 = CE / 4 = HF / 5 = AO / 6 = XY">
+                            </div>
+                            <div class="form-group">
+                                <label for="addSeries">Card Series</label>
+                                <input type="int" class="form-control" id="series" name="series"
+                                    placeholder="1 = Scarlet & Violet / 2 = Sun & Moon / 3 = XY">
+                            </div>
+                            <div class="form-group">
+                                <label for="addEnergy">Card Energy</label>
+                                <input type="int" class="form-control" id="energy" name="energy"
+                                    placeholder="1 = Colourless / 2 = Darkness / 3 = Fighting / 4 = Grass etc">
+                            </div>
+                            <div class="form-group">
+                                <label for="addRarity">Card Rarity</label>
+                                <input type="int" class="form-control" id="rarity" name="rarity"
+                                    placeholder="1 = Common / 2 = Uncommon / 3 = Rare / 4 = Double Rare etc">
+                            </div>
+
+                            <button type="submit" class="btn btn-secondary">Add Card</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
             <% } %>
 
 
-
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <a href="/collections" class="btn btn-primary">My Collections</a>
-                        </div>
-                    </div>
-                </div>
-
-                <form action="/deleteAccount" method="POST">
-                    <h2 class="text-center mt-4">Delete Account</h2>
-                    <hr class="my-4 short-hr">
-                    <div class="form-group">
-                        <label for="deleteAccEmail">Enter Email</label>
-                        <input type="email" class="form-control" id="email" name="delEmail" placeholder="Enter Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="deleteAccPassword">Enter Password</label>
-                        <input type="password" class="form-control" id="password" name="delPassword"
-                            placeholder="Enter Password">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Delete Account</button>
-                </form>
-
-
                 <div class="container mt-4">
-                    <a href="/logout" class="btn btn-primary">Log Out</a>
+                    <h4 class="text-center">Delete Account</h4>
+                    <form action="/deleteAccount" method="POST">
+                        <hr class="my-4 short-hr">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="deleteAccEmail">Enter Email</label>
+                                <input type="email" class="form-control" id="email" name="delEmail"
+                                    placeholder="Enter Email">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="deleteAccPassword">Enter Password</label>
+                                <input type="password" class="form-control" id="password" name="delPassword"
+                                    placeholder="Enter Password">
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Delete Account</button>
+                        </div>
+                    </form>
                 </div>
+
 
                 <%- include('partials/footer') %>
 
@@ -106,6 +241,17 @@
                             alert("Card Deleted Successfully");
                         }
                     </script>
+                    <script>
+                        //  if the url contains a query parameter indicating successful registration
+                        const urlParamet = new URLSearchParams(window.location.search);
+                        const addedcard = urlParamet.get('added');
+                        // ref! its query params in app.js and 
+                        // idf reg parameter is present, display a popup message
+                        if (addedcard === 'true') {
+                            alert("Card added Successfully");
+                        }
+                    </script>
+
 
 
 

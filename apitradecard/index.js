@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require("express");
 const app = express();
 const mysql = require('mysql2');
+const bcrypt = require('bcrypt');
 
 const PORT = process.env.PORT || 4000;
 app.set('view engine', 'ejs');
@@ -203,7 +204,7 @@ const registerUser = (email, username, password, callback) => {
     });
 };
 
-// Function to deletee a card 
+// Function to delete a card 
 const deleteCardAdmin = (cname, setID, callback) => {
     const deleteCardQuery = `DELETE FROM card WHERE card_name = ? AND set_id = ?`;
     connection.query(deleteCardQuery, [cname, setID], (err, result) => {
@@ -216,7 +217,20 @@ const deleteCardAdmin = (cname, setID, callback) => {
 };
 
 
-// deleting account 
+// func to add cards
+const addCardAdmin = (name, hitpoints, price, img, descr, type, set, series, energy, rarity, callback) => {
+    const addcardQuery = `INSERT INTO card (card_name, hit_points, price, image_url, card_description, card_type_id, set_id, series_id, energy_type_id, rarity_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    connection.query(addcardQuery, [name, hitpoints, price, img, descr, type, set, series, energy, rarity], (err, result) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+};
+
+
+// deleting
 const deleteAccount = (useremail, userspassword, callback) => {
     const deleteCardQuery = `DELETE FROM user WHERE email = ? AND password = ?`;
     connection.query(deleteCardQuery, [useremail, userspassword], (err, result) => {
@@ -231,7 +245,7 @@ const deleteAccount = (useremail, userspassword, callback) => {
 
 module.exports = {
     authenticateUser,
-    getUserById, registerUser, deleteCardAdmin, deleteAccount
+    getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin
 };
 
 

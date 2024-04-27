@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // reagrding the session thinsga nd user authetnication here is the code 
 // ref index.js for  route to get the query from the db from thie api 
-const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin } = require('./apitradecard/index.js');
+const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, getAllCards, deleteCollection, addCardToCollection } = require('./apitradecard/index.js');
 
 const cookieParser = require('cookie-parser');
 const sessions = require('express-session');
@@ -56,8 +56,8 @@ app.use(express.static(path.join(__dirname, "./public")));
 
 const log_data = (req, res, next) => {
     const visitTime = new Date();
-    console.log(`User visited at ${visitTime.toLocaleString()} \n
-                using ${req.get('User-Agent')}`);
+    console.log(`User visited at ${visitTime.toLocaleString()} - using ${req.get('User-Agent')}`); // made this one line as too much going on inn colsole 
+
 
     next();
 
@@ -65,25 +65,33 @@ const log_data = (req, res, next) => {
 
 
 const browser_lang = (req, res, next) => {
-    console.log(`client language:::::${req.header('accept-language')}`);
+    console.log(`Client language:::::${req.header('accept-language')}`);
 
     next();
 
 };
 
+
+
+
+
+
+
+
 // routes
 
 
 // the titles (except 404) are not connected to anything, so may be worthwhile changing them all)
+// took the borswer stuff out of rest as only tracking index and 404 errors now, but can be added to all if needed 
 app.get('/', log_data, browser_lang, (req, res) => {
     res.render("index", { title: 'Pokécard Palace' })
 });
 
-app.get('/signin', log_data, browser_lang, (req, res) => {
+app.get('/signin', (req, res) => {
     res.render("signin")
 });
 
-app.get('/contact', log_data, browser_lang, (req, res) => {
+app.get('/contact', (req, res) => {
     res.render("contact")
 });
 
@@ -238,11 +246,159 @@ const isLoggedIn = (req, res, nextthing) => {
 };
 
 
-// isLoggedin midleware to collct and wish
-// CODE NOW HERE TO make sure you can just type in url for the collectins etc, it is linked to a user instead
-app.get('/collections', isLoggedIn, (req, res) => {
-    res.render("collections")
+
+// al the res.505 things are only because i had it in the first one from labs, take out and replace with actual message s
+// also, title are in here too as redning pages etc andf objects before ejs so just take them out when reviewing final code if added munally to ejs 
+
+
+// COLLECTIONS 
+
+
+
+
+app.get('/mycollection', isLoggedIn, (req, res) => {
+    const userId = req.session.authen; // get user id from sess
+
+    myCollectionData(userId, (err, collectionData) => {
+        if (err) {
+            console.error('Error fetching user collection data:', err);
+            res.status(500).send('Error fetching user collection data');
+        } else {
+            // usngi this function again wherei can get the user by there id 
+            getUserById(userId, (userErr, userData) => {
+                if (userErr) {
+                    console.error('Error fetching user data:', userErr);
+                    res.status(500).send('Error fetching user data');
+                } else {
+
+                    res.render("mycollection", { title: 'My Collection', collectionData, userdata: userData[0] });
+                    console.log('Collection Data: ', collectionData);
+                }
+
+            });
+        }
+    });
 });
+
+app.post('/mycollection', isLoggedIn, (req, res) => {
+    const userId = req.session.authen;
+    const { collectionName, collectionDescription } = req.body; // extract colection data from req 
+
+    createCollection(userId, collectionName, collectionDescription, (err, result) => { // now instering into db 
+        if (err) {
+            console.error('Error creating collection:', err);
+            res.status(500).send('Error creating collection');
+        } else {
+
+            res.redirect('/mycollection');
+        }
+    });
+});
+
+app.get('/collection/:collectionId', isLoggedIn, (req, res) => {
+    const collectionId = req.params.collectionId;
+
+    // q db to get all card  in col
+    getCardsInaCollection(collectionId, (err, cards) => {
+        if (err) {
+            console.error('Error fetching cards in collection:', err);
+            return res.status(500).send('Error fetching cards in collection');
+        }
+
+        // query db to get all available cards 
+        getAllCards((err, allCards) => {
+            if (err) {
+                console.error('Error fetching all cards:', err);
+                return res.status(500).send('Error fetching all cards');
+            }
+
+            // dont reall yneed titles here, only for testing of rderning 
+            res.render("collectioncards", { title: 'Collection Cards', cards, allCards, collectionId });
+        });
+    });
+});
+
+
+
+
+
+
+// gets all collections 
+
+app.get('/collections', isLoggedIn, (req, res) => {
+    // get all col via query 
+    getAllCollections((err, collections) => {
+        if (err) {
+            console.error('Error fetching collections:', err);
+            res.status(500).send('Error fetching collections');
+        } else {
+
+            res.render("allcollections", { title: 'All Collections', collections });
+        }
+    });
+});
+
+app.post('/collection/delete/:collectionId', isLoggedIn, (req, res) => {
+    const collectionId = req.params.collectionId;
+    // delete fucn 
+    deleteCollection(collectionId, (err, result) => {
+        if (err) {
+            console.error('Error deleting collection:', err);
+            res.status(500).send('Error deleting collection');
+        } else {
+            // redirecting back to colletions, is there a better way? 
+            res.redirect('/mycollection');
+        }
+    });
+});
+
+
+
+
+// ad cards to collect 
+app.post('/collection/:collectionId/addcard', isLoggedIn, (req, res) => {
+    const collectionId = req.params.collectionId;
+    const cardId = req.body.cardId;
+
+    // adding card func 
+    addCardToCollection(collectionId, cardId, (err, result) => {
+        if (err) {
+            console.error('Error adding card to collection:', err);
+            return res.status(500).send(`Error adding card to collection: ${err.message}`);
+        }
+        console.log('Card added to collection successfully');
+        res.redirect(`/collection/${collectionId}`); // just keep on same page here as no need ot redirect 
+    });
+});
+
+
+
+
+
+
+// delete a collectio w/o user interference, and add a card is notw going to be next 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -332,28 +488,56 @@ app.post('/addCard', (req, res) => {
 
 
 // deleeting  card via admin stayus 
+// deleeting account only if email matches with the logged in user's email
 app.post('/deleteAccount', (req, res) => {
-    const email = req.body.delEmail;
+    const emailToDelete = req.body.delEmail;
+    const sessionUserId = req.session.authen; // Retrieve the logged-in user's ID from the session
 
-    deleteAccount(email, (err, result) => {
+    console.log(emailToDelete);
+    console.log('hello', sessionUserId);
 
+    // First, check if the logged-in user exists
+    if (!sessionUserId) {
+        res.redirect('/signin'); // Redirect to sign-in if no user is logged in
+        return;
+    }
+
+    // Get the user's email from the database using their ID
+    getUserById(sessionUserId, (err, user) => {
         if (err) {
-            console.error('Error occurred when deleting account:', err);
-            //  error feedback to user 
-            res.redirect('/dashboard'); // redirect again with no messag e
-        } else {
-            // End the session
-            req.session.destroy((err) => {
-                if (err) {
-                    console.error('Error occurred during logout:', err);
-                    // Handle error appropriately
+            console.error('Error occurred while fetching user data:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+
+        // check if the user exists and if the provided email matches the usr email
+        if (user && user.length > 0 && user[0].email === emailToDelete) {
+            // / if emails match then delete the acc
+            console.log('Hello!!!!')
+            deleteAccount(emailToDelete, (deleteErr, result) => {
+                if (deleteErr) {
+                    console.error('Error occurred when deleting account:', deleteErr);
+                    res.status(500).send('Error occurred when deleting account');
+                } else {
+                    // End the session
+                    req.session.destroy((sessionErr) => {
+                        if (sessionErr) {
+                            console.error('Error occurred during logout:', sessionErr);
+                        }
+                        res.redirect('/signin?deleteaccount=true'); // redirect still there 
+                    });
                 }
-                // redirect Sigin with error message
-                res.redirect('/signin?deleteaccount=true');
             });
+        } else {
+            // If the user doesn't exist or the emails don't match, redirect back with an error message
+            res.redirect('/dashboard?deleteerror=true');
         }
     });
 });
+
+
+
 
 
 

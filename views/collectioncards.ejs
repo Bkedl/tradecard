@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection Cards</title>
+</head>
+
+<body>
+
+
+
+
+    <!-- rendeing th cards int he colleciton  -->
+
+
+    <form action="/collection/<%= collectionId %>/addcard" method="post">
+        <select name="cardId">
+            <% allCards.forEach(card=> { %>
+                <option value="<%= card.card_id %>">
+                    <%= card.card_name %>
+                </option>
+                <% }); %>
+        </select>
+        <button type="submit">Add Card</button>
+    </form>
+
+
+    <% cards.forEach(card=> { %>
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+            <div class="card cards-section">
+                <div class="card-body text-center">
+                    <img src="<%= card.image_url %>" class="card-img-top img-right" alt="<%= card.card_name %>">
+                    <h4 class="card-title mt-2">
+                        <%= card.card_name %>
+                    </h4>
+                    <h5 class="card-text ital-text">
+                        <%= card.price %>
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+
+</body>
+
+</html>

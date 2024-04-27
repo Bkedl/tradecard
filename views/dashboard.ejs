@@ -78,12 +78,17 @@
             <div class="row justify-content-center">
                 <div class="col-md-4 mt-2">
                     <div class="text-center">
-                        <a href="/collections" class="btn btn-primary btn-block">My Collection</a>
+                        <a href="/mycollection" class="btn btn-primary btn-block">My Collections</a>
                     </div>
                 </div>
                 <div class="col-md-4 mt-2">
                     <div class="text-center">
                         <a href="/wishlist" class="btn btn-primary btn-block">My Wishlist</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <div class="text-center">
+                        <a href="/collections" class="btn btn-primary btn-block">All Collections</a>
                     </div>
                 </div>
                 <div class="col-md-4 mt-2">
@@ -228,7 +233,7 @@
                         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
                         crossorigin="anonymous"></script>
                     <script>
-                        //  if the url contains a query parameter indicating successful registration
+                        //  if the url contains a query parameter indicating successful deletion card
                         const urlParams = new URLSearchParams(window.location.search);
                         const deletecard = urlParams.get('deleted');
                         // ref! its query params in app.js and 
@@ -238,13 +243,23 @@
                         }
                     </script>
                     <script>
-                        //  if the url contains a query parameter indicating successful registration
+                        //  if the url contains a query parameter indicating successful added card
                         const urlParamet = new URLSearchParams(window.location.search);
                         const addedcard = urlParamet.get('added');
                         // ref! its query params in app.js and 
                         // idf reg parameter is present, display a popup message
                         if (addedcard === 'true') {
                             alert("Card added Successfully");
+                        }
+                    </script>
+                    <script>
+                        //  if the url contains a query parameter indicating insuccesgul deletion 
+                        const urlParameters = new URLSearchParams(window.location.search);
+                        const deletedacc = urlParameters.get('deleteerror');
+                        // ref! its query params in app.js and 
+                        // idf reg parameter is present, display a popup message
+                        if (deletedacc === 'true') {
+                            alert("Account not deleted, email not correct");
                         }
                     </script>
 

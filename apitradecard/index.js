@@ -226,6 +226,11 @@ const getUserById = (uid, callback) => {
     });
 };
 
+
+
+
+
+
 // Function to register a new user
 const registerUser = (email, username, password, callback) => {
     const createUserQuery = `INSERT INTO user (email, user_name, password) VALUES (?, ?, ?)`;
@@ -277,13 +282,138 @@ const deleteAccount = (useremail, callback) => {
 };
 
 
-module.exports = {
-    authenticateUser,
-    getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin
+
+
+
+
+// COLLECTIONS 
+
+// Function that gets all of the colection data for a user who is logge din 
+const myCollectionData = (userId, callback) => {
+    const getMyCollectionQuery = `
+        SELECT collection.*
+        FROM collection
+        WHERE collection.user_id = ?
+    `;
+    connection.query(getMyCollectionQuery, [userId], (err, rows) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    });
+};
+
+// creating a coltions,  may need to be tweakes alot more 
+const createCollection = (userId, collectionName, collectionDescription, callback) => {
+    const createCollectionQuery = `INSERT INTO collection (collection_name, collection_description, user_id) VALUES (?, ?, ?)`;
+    connection.query(createCollectionQuery, [collectionName, collectionDescription, userId], (err, result) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+};
+
+
+// listing al cards in an actual collection i.e. the useer colection 
+const getCardsInaCollection = (collectionId, callback) => {
+    const getCardsQuery = `
+        SELECT card.*
+        FROM collection_card
+        INNER JOIN card ON collection_card.card_id = card.card_id
+        WHERE collection_card.collection_id = ?
+    `;
+    connection.query(getCardsQuery, [collectionId], (err, rows) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    });
+};
+// Function that just gets all the collections so i can access collection properites and listt hings for all collections  
+const getAllCollections = (callback) => {
+    const query = `
+        SELECT *
+        FROM collection
+       
+    `;
+    connection.query(query, (err, rows) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    });
+};
+
+
+// Function that gets all of the cards to be used in the things where i want all cards in db to show i.e. drop down etc 
+
+const getAllCards = (callback) => {
+    const getAllCardsQuery = `SELECT * FROM card`;
+    connection.query(getAllCardsQuery, (err, rows) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    });
+};
+
+// Func adding cards ot coleciton 
+const addCardToCollection = (collectionId, cardId, callback) => {
+    const addCardQuery = `
+        INSERT INTO collection_card (collection_id, card_id)
+        VALUES (?, ?)
+    `;
+    connection.query(addCardQuery, [collectionId, cardId], (err, result) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+};
+
+
+// deleting collection func 
+const deleteCollection = (collectionId, callback) => {
+
+    const deleteCardsQuery = `DELETE FROM collection_card WHERE collection_id = ?`;
+    connection.query(deleteCardsQuery, [collectionId], (err, result) => {
+        if (err) {
+            callback(err, null);
+        } else {
+
+            const deleteCollectionQuery = `DELETE FROM collection WHERE collection_id = ?`;
+            connection.query(deleteCollectionQuery, [collectionId], (err, result) => {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, result);
+                }
+            });
+        }
+    });
 };
 
 
 
+
+
+
+
+
+
+
+
+module.exports = {
+    authenticateUser,
+    getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, deleteCollection, getAllCards, addCardToCollection
+};
 
 
 

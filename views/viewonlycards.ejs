@@ -1,0 +1,41 @@
+<!-- viewcards.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+
+
+    <% cards.forEach(card=> { %>
+        <div class="card">
+
+            <h2>
+                <%= card.card_name %>
+            </h2>
+            <img src="<%= card.image_url %>" class="card-img-top img-right" alt="<%= card.card_name %>">
+            <p>Hit Points: <%= card.hitPoints %>
+            </p>
+            <p>Price: <%= card.price %>
+            </p>
+
+
+            <form action="/wishlist/add" method="post">
+                <input type="hidden" name="cardId" value="<%= card.card_id %>">
+                <button type="submit">Add to Wishlist</button>
+            </form>
+        </div>
+        <% }); %>
+</body>
+
+</html>

@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // reagrding the session thinsga nd user authetnication here is the code 
 // ref index.js for  route to get the query from the db from thie api 
-const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, getAllCards, deleteCollection, addCardToCollection } = require('./apitradecard/index.js');
+const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, getAllCards, deleteCollection, addCardToCollection, addToWishlist, getWishlistItems, removeCardFromWishlist } = require('./apitradecard/index.js');
 
 const cookieParser = require('cookie-parser');
 const sessions = require('express-session');
@@ -325,8 +325,24 @@ app.get('/collection/:collectionId', isLoggedIn, (req, res) => {
 
 // gets all collections 
 
+app.get('/collection/:collectionId/cards', isLoggedIn, (req, res) => {
+    const collectionId = req.params.collectionId;
+
+
+    getCardsInaCollection(collectionId, (err, cards) => {
+        if (err) {
+            console.error('Error fetching cards in collection:', err);
+            return res.status(500).send('Error fetching cards in collection');
+        }
+
+
+        res.render("viewonlycards", { title: 'Cards in Collection', cards });
+    });
+});
+
+
 app.get('/collections', isLoggedIn, (req, res) => {
-    // get all col via query 
+
     getAllCollections((err, collections) => {
         if (err) {
             console.error('Error fetching collections:', err);
@@ -338,15 +354,16 @@ app.get('/collections', isLoggedIn, (req, res) => {
     });
 });
 
+
 app.post('/collection/delete/:collectionId', isLoggedIn, (req, res) => {
     const collectionId = req.params.collectionId;
-    // delete fucn 
+
     deleteCollection(collectionId, (err, result) => {
         if (err) {
             console.error('Error deleting collection:', err);
             res.status(500).send('Error deleting collection');
         } else {
-            // redirecting back to colletions, is there a better way? 
+
             res.redirect('/mycollection');
         }
     });
@@ -376,8 +393,62 @@ app.post('/collection/:collectionId/addcard', isLoggedIn, (req, res) => {
 
 
 
-// delete a collectio w/o user interference, and add a card is notw going to be next 
+// wishlist attempt
 
+
+// routing wishlist from index.js with the adding and getting the wishlist below 
+app.post('/wishlist/add', isLoggedIn, (req, res) => {
+    const userId = req.session.authen; // Retrieve the logged-in user's ID from the session
+    const cardId = req.body.cardId;
+    addToWishlist(userId, cardId, (err) => {
+        if (err) {
+            console.error("Error adding card to wishlist:", error);
+            res.status(500).send("Error adding card to wishlist.");
+        } else {
+            res.status(200).send("Card added to wishlist successfully.");
+        }
+    });
+});
+
+//route to render wishlist page
+
+app.get('/wishlist', isLoggedIn, (req, res) => {
+    const userId = req.session.authen; // nmeed user sesiosn data for user id here 
+
+    // get the user data first? 
+    getUserById(userId, (err, userData) => {
+        if (err) {
+            console.error("Error fetching user data:", err);
+            res.status(500).send("Error fetching user data.");
+        } else {
+
+            getWishlistItems(userId, (err, wishlistItems) => {
+                if (err) {
+                    console.error("Error fetching wishlist items:", err);
+                    res.status(500).send("Error fetching wishlist items.");
+                } else {
+
+                    res.render('wishlist', { wishlistItems, userdata: userData[0] });
+                }
+            });
+        }
+    });
+});
+
+
+app.post('/wishlist/remove/:cardId', isLoggedIn, (req, res) => {
+    const userId = req.session.authen;
+    const cardId = req.params.cardId;
+
+    removeCardFromWishlist(userId, cardId, (err, result) => {
+        if (err) {
+            console.error("Error removing card from wishlist:", err);
+            res.status(500).send("Error removing card from wishlist.");
+        } else {
+            res.redirect('/wishlist');
+        }
+    });
+});
 
 
 

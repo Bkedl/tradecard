@@ -243,14 +243,32 @@ const registerUser = (email, username, password, callback) => {
     });
 };
 
-// Function to delete a card 
+
+
 const deleteCardAdmin = (cname, setID, callback) => {
-    const deleteCardQuery = `DELETE FROM card WHERE card_name = ? AND set_id = ?`;
-    connection.query(deleteCardQuery, [cname, setID], (err, result) => {
+
+    const deleteCollectionCardsQuery = `DELETE FROM collection_card WHERE card_id IN (SELECT card_id FROM card WHERE card_name = ? AND set_id = ?)`;
+    connection.query(deleteCollectionCardsQuery, [cname, setID], (err, result) => {
         if (err) {
             callback(err, null);
         } else {
-            callback(null, result);
+
+            const deleteWishlistItemsQuery = `DELETE FROM wishlist WHERE card_id IN (SELECT card_id FROM card WHERE card_name = ? AND set_id = ?)`;
+            connection.query(deleteWishlistItemsQuery, [cname, setID], (err, result) => {
+                if (err) {
+                    callback(err, null);
+                } else {
+
+                    const deleteCardQuery = `DELETE FROM card WHERE card_name = ? AND set_id = ?`;
+                    connection.query(deleteCardQuery, [cname, setID], (err, result) => {
+                        if (err) {
+                            callback(err, null);
+                        } else {
+                            callback(null, result);
+                        }
+                    });
+                }
+            });
         }
     });
 };
@@ -403,6 +421,54 @@ const deleteCollection = (collectionId, callback) => {
 
 
 
+// WISH LIST 
+
+// ading card to wish
+const addToWishlist = (userId, cardId, callback) => {
+    const addToWishlistQuery = `INSERT INTO wishlist (user_id, card_id) VALUES (?, ?)`;
+    connection.query(addToWishlistQuery, [userId, cardId], (err, result) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+};
+
+
+// geting wishlist from user
+const getWishlistItems = (userId, callback) => {
+    const getWishlistItemsQuery = `
+        SELECT card.*
+        FROM wishlist
+        INNER JOIN card ON wishlist.card_id = card.card_id
+        WHERE wishlist.user_id = ?
+    `;
+    connection.query(getWishlistItemsQuery, [userId], (err, rows) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    });
+};
+
+const removeCardFromWishlist = (userId, cardId, callback) => {
+    const removeCardQuery = `
+        DELETE FROM wishlist
+        WHERE user_id = ? AND card_id = ?
+    `;
+    connection.query(removeCardQuery, [userId, cardId], (err, result) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+};
+
+
+
 
 
 
@@ -412,7 +478,7 @@ const deleteCollection = (collectionId, callback) => {
 
 module.exports = {
     authenticateUser,
-    getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, deleteCollection, getAllCards, addCardToCollection
+    getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, deleteCollection, getAllCards, addCardToCollection, addToWishlist, getWishlistItems, removeCardFromWishlist
 };
 
 

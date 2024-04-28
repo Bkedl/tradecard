@@ -1,5 +1,3 @@
-<!-- viewcards.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,10 +14,8 @@
         <%= title %>
     </h1>
 
-
     <% cards.forEach(card=> { %>
         <div class="card">
-
             <h2>
                 <%= card.card_name %>
             </h2>
@@ -30,12 +26,25 @@
             </p>
 
 
+
+            <!-- Add form for adding to wishlist -->
             <form action="/wishlist/add" method="post">
                 <input type="hidden" name="cardId" value="<%= card.card_id %>">
                 <button type="submit">Add to Wishlist</button>
             </form>
         </div>
         <% }); %>
+
+            <form action="/collection/<%= collectionId %>/rate" method="post">
+                <input type="hidden" name="collectionId" value="<%= collectionId %>">
+                <label for="rating">Rate this collection:</label>
+                <input type="number" name="rating" id="rating" min="1" max="5" required>
+                <button type="submit">Submit Rating</button>
+            </form>
+
+            <!-- this is the average rating thing going i -->
+            <p>Average Rating: <%= averageRating %>
+            </p>
 </body>
 
 </html>

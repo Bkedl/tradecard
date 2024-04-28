@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // reagrding the session thinsga nd user authetnication here is the code 
 // ref index.js for  route to get the query from the db from thie api 
-const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, getAllCards, deleteCollection, addCardToCollection, addToWishlist, getWishlistItems, removeCardFromWishlist } = require('./apitradecard/index.js');
+const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, getAllCards, deleteCollection, addCardToCollection, addToWishlist, getWishlistItems, removeCardFromWishlist, insertRating, getAverageRating } = require('./apitradecard/index.js');
 
 const cookieParser = require('cookie-parser');
 const sessions = require('express-session');
@@ -328,15 +328,23 @@ app.get('/collection/:collectionId', isLoggedIn, (req, res) => {
 app.get('/collection/:collectionId/cards', isLoggedIn, (req, res) => {
     const collectionId = req.params.collectionId;
 
-
-    getCardsInaCollection(collectionId, (err, cards) => {
+    // here is ave rating implementation 
+    getAverageRating(collectionId, (err, averageRating) => {
         if (err) {
-            console.error('Error fetching cards in collection:', err);
-            return res.status(500).send('Error fetching cards in collection');
+            console.error('Error fetching average rating:', err);
+            return res.status(500).send('Error fetching average rating');
         }
 
 
-        res.render("viewonlycards", { title: 'Cards in Collection', cards });
+        getCardsInaCollection(collectionId, (err, cards) => {
+            if (err) {
+                console.error('Error fetching cards in collection:', err);
+                return res.status(500).send('Error fetching cards in collection');
+            }
+
+            // also now added ave rating to the redner 
+            res.render("viewonlycards", { title: 'Cards in Collection', cards, collectionId, averageRating });
+        });
     });
 });
 
@@ -452,9 +460,26 @@ app.post('/wishlist/remove/:cardId', isLoggedIn, (req, res) => {
 
 
 
+// RATING 
+
+
+app.post('/collection/:collectionId/rate', isLoggedIn, (req, res) => {
+    const collectionId = req.params.collectionId;
+    const userId = req.session.authen;
+    const ratingValue = req.body.rating;
 
 
 
+
+    insertRating(collectionId, userId, ratingValue, (err, result) => {
+        if (err) {
+            console.error('Error submitting rating:', err);
+            res.redirect(`/collection/${collectionId}/cards`);
+        } else {
+            res.redirect(`/collection/${collectionId}/cards`);
+        }
+    });
+});
 
 
 

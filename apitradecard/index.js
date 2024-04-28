@@ -470,6 +470,35 @@ const removeCardFromWishlist = (userId, cardId, callback) => {
 
 
 
+// RATINGS 
+
+const insertRating = (collectionId, userId, ratingValue, callback) => {
+    const insertRatingQuery = 'INSERT INTO ratings (collection_id, user_id, rating_value) VALUES (?, ?, ?)';
+    connection.query(insertRatingQuery, [collectionId, userId, ratingValue], (err, result) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+};
+
+
+const getAverageRating = (collectionId, callback) => {
+    const query = 'SELECT ROUND(AVG(rating_value), 1) AS averageRating FROM ratings WHERE collection_id = ?'; // query uses the round  so essentially .5 etc rather than 5.000000 (is there another way as this may not be accurate) TEST 
+    connection.query(query, [collectionId], (err, results) => {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+        const averageRating = results[0].averageRating || 0; // default to 0 if not ratings here 
+        callback(null, averageRating);
+    });
+};
+
+
+
+
 
 
 
@@ -478,7 +507,7 @@ const removeCardFromWishlist = (userId, cardId, callback) => {
 
 module.exports = {
     authenticateUser,
-    getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, deleteCollection, getAllCards, addCardToCollection, addToWishlist, getWishlistItems, removeCardFromWishlist
+    getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, deleteCollection, getAllCards, addCardToCollection, addToWishlist, getWishlistItems, removeCardFromWishlist, insertRating, getAverageRating
 };
 
 

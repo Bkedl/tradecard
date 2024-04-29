@@ -299,6 +299,26 @@
                             alert("Account not deleted, email not correct");
                         }
                     </script>
+                    <script>
+                        //  if the url contains a query parameter indicating insuccesgul deletion 
+                        const urlPa = new URLSearchParams(window.location.search);
+                        const updateemail = urlPa.get('emailupdate');
+                        // ref! its query params in app.js and 
+                        // idf reg parameter is present, display a popup message
+                        if (updateemail === 'true') {
+                            alert("Email updated!");
+                        }
+                    </script>
+                    <script>
+                        //  if the url contains a query parameter indicating insuccesgul deletion 
+                        const urlPar = new URLSearchParams(window.location.search);
+                        const nonupdateemail = urlPar.get('emailupdateerror');
+                        // ref! its query params in app.js and 
+                        // idf reg parameter is present, display a popup message
+                        if (nonupdateemail === 'true') {
+                            alert("Email not updated, please check your credentials");
+                        }
+                    </script>
 
 
 

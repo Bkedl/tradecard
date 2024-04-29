@@ -40,7 +40,8 @@
                 <select name="cardId" class="form-control">
                     <% allCards.forEach(card=> { %>
                         <option value="<%= card.card_id %>">
-                            <%= card.card_name %> - <%= card.price %>
+                            <%= card.card_name %> - $<%= card.price %> - <%= card.set %> - <%= card.series %> - <%=
+                                                card.rarity %> - <%= card.type %>
                         </option>
                         <% }); %>
                 </select>

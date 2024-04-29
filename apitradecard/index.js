@@ -287,10 +287,66 @@ const addCardAdmin = (name, hitpoints, price, img, descr, type, set, series, ene
 };
 
 
-// deleting (nno pasword as giving bother with bcrypt, also no where displays e ail is flogged in byt still not okay as can delete any account from it )
-const deleteAccount = (useremail, callback) => {
-    const deleteAcc = `DELETE FROM user WHERE email = ?`;
-    connection.query(deleteAcc, [useremail], (err, result) => {
+
+
+// make big query here for delete accoutn as need to delet all fk constarinmts too when accoutn deleted 
+
+const deleteAccount = (userEmail, callback) => {
+
+    // all work in database level 
+    const deleteRatingsQuery = `DELETE FROM ratings WHERE collection_id IN (SELECT collection_id FROM collection WHERE user_id = (SELECT user_id FROM user WHERE email = ?))`;
+    const deleteCollectionCardsQuery = `DELETE FROM collection_card WHERE collection_id IN (SELECT collection_id FROM collection WHERE user_id = (SELECT user_id FROM user WHERE email = ?))`;
+    const deleteCollectionsQuery = `DELETE FROM collection WHERE user_id = (SELECT user_id FROM user WHERE email = ?)`;
+    const deleteWishlistQuery = `DELETE FROM wishlist WHERE user_id = (SELECT user_id FROM user WHERE email = ?)`;
+
+
+    connection.query(deleteRatingsQuery, [userEmail], (ratingsErr, ratingsResult) => {
+        if (ratingsErr) {
+            callback(ratingsErr, null);
+            return;
+        }
+
+
+        connection.query(deleteCollectionCardsQuery, [userEmail], (collectionCardsErr, collectionCardsResult) => {
+            if (collectionCardsErr) {
+                callback(collectionCardsErr, null);
+                return;
+            }
+
+
+            connection.query(deleteCollectionsQuery, [userEmail], (collectionsErr, collectionsResult) => {
+                if (collectionsErr) {
+                    callback(collectionsErr, null);
+                    return;
+                }
+
+
+                connection.query(deleteWishlistQuery, [userEmail], (wishlistErr, wishlistResult) => {
+                    if (wishlistErr) {
+                        callback(wishlistErr, null);
+                        return;
+                    }
+
+                    // add another query for themm all here ie the last step?  like delete from user wherer email ....
+                    const deleteAccQuery = `DELETE FROM user WHERE email = ?`;
+                    connection.query(deleteAccQuery, [userEmail], (deleteErr, result) => {
+                        if (deleteErr) {
+                            callback(deleteErr, null);
+                        } else {
+                            callback(null, result);
+                        }
+                    });
+                });
+            });
+        });
+    });
+};
+
+
+// update email 
+const updateEmail = (oldEmail, newEmail, userId, callback) => {
+    const updateQuery = `UPDATE user SET email = ? WHERE email = ? AND user_id = ?`;
+    connection.query(updateQuery, [newEmail, oldEmail, userId], (err, result) => {
         if (err) {
             callback(err, null);
         } else {
@@ -298,6 +354,8 @@ const deleteAccount = (useremail, callback) => {
         }
     });
 };
+
+
 
 
 
@@ -519,7 +577,7 @@ const getAverageRating = (collectionId, callback) => {
 
 module.exports = {
     authenticateUser,
-    getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, deleteCollection, getAllCards, addCardToCollection, addToWishlist, getWishlistItems, removeCardFromWishlist, insertRating, getAverageRating
+    getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, deleteCollection, getAllCards, addCardToCollection, addToWishlist, getWishlistItems, removeCardFromWishlist, insertRating, getAverageRating, updateEmail
 };
 
 

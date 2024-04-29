@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // reagrding the session thinsga nd user authetnication here is the code 
 // ref index.js for  route to get the query from the db from thie api 
-const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, getAllCards, deleteCollection, addCardToCollection, addToWishlist, getWishlistItems, removeCardFromWishlist, insertRating, getAverageRating } = require('./apitradecard/index.js');
+const { authenticateUser, getUserById, registerUser, deleteCardAdmin, deleteAccount, addCardAdmin, myCollectionData, createCollection, getCardsInaCollection, getAllCollections, getAllCards, deleteCollection, addCardToCollection, addToWishlist, getWishlistItems, removeCardFromWishlist, insertRating, getAverageRating, updateEmail } = require('./apitradecard/index.js');
 
 const cookieParser = require('cookie-parser');
 const sessions = require('express-session');
@@ -582,22 +582,25 @@ app.post('/addCard', (req, res) => {
 });
 
 
-// deleeting  card via admin stayus 
-// deleeting account only if email matches with the logged in user's email
+
+
+
+// detlet accoutn styas the same 
+
 app.post('/deleteAccount', (req, res) => {
     const emailToDelete = req.body.delEmail;
-    const sessionUserId = req.session.authen; // Retrieve the logged-in user's ID from the session
+    const sessionUserId = req.session.authen;
 
     console.log(emailToDelete);
     console.log('hello', sessionUserId);
 
-    // First, check if the logged-in user exists
+
     if (!sessionUserId) {
-        res.redirect('/signin'); // Redirect to sign-in if no user is logged in
+        res.redirect('/signin');
         return;
     }
 
-    // Get the user's email from the database using their ID
+
     getUserById(sessionUserId, (err, user) => {
         if (err) {
             console.error('Error occurred while fetching user data:', err);
@@ -606,30 +609,79 @@ app.post('/deleteAccount', (req, res) => {
         }
 
 
-        // check if the user exists and if the provided email matches the usr email
         if (user && user.length > 0 && user[0].email === emailToDelete) {
-            // / if emails match then delete the acc
-            console.log('Hello!!!!')
+
             deleteAccount(emailToDelete, (deleteErr, result) => {
                 if (deleteErr) {
                     console.error('Error occurred when deleting account:', deleteErr);
                     res.status(500).send('Error occurred when deleting account');
                 } else {
-                    // End the session
+
                     req.session.destroy((sessionErr) => {
                         if (sessionErr) {
                             console.error('Error occurred during logout:', sessionErr);
                         }
-                        res.redirect('/signin?deleteaccount=true'); // redirect still there 
+
+                        res.redirect('/signin?deleteaccount=true');
                     });
                 }
             });
         } else {
-            // If the user doesn't exist or the emails don't match, redirect back with an error message
+
             res.redirect('/dashboard?deleteerror=true');
         }
     });
 });
+
+
+
+// updating email, add user if have time (password nto working, bcrypt error) 
+
+
+app.post('/updateEmail', (req, res) => {
+    const oldEmail = req.body.oldEmail;
+    const newEmail = req.body.newEmail;
+    const sessionUserId = req.session.authen;
+
+
+    if (!sessionUserId) {
+        res.redirect('/signin');
+        return;
+    }
+
+
+    getUserById(sessionUserId, (err, user) => {
+        if (err) {
+            console.error('Error occurred while fetching user data:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+
+        if (user && user.length > 0 && user[0].email === oldEmail) {
+
+            updateEmail(oldEmail, newEmail, sessionUserId, (updateErr, result) => {
+                if (updateErr) {
+                    console.error('Error occurred when updating email:', updateErr);
+                    res.status(500).send('Error occurred when updating email');
+                } else {
+
+                    if (result.affectedRows > 0) {
+                        res.redirect('/dashboard?emailupdate=true');
+                    } else {
+
+                        res.redirect('/dashboard?emailupdateerror=true');
+                    }
+                }
+            });
+        } else {
+
+            res.redirect('/dashboard?emailupdateerror=true');
+        }
+    });
+});
+
+
 
 
 

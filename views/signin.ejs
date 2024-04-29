@@ -59,18 +59,18 @@
                         <hr class="my-4 short-hr">
                         <div class="form-group">
                             <label for="signUpEmail">Email</label>
-                            <input type="email" class="form-control" id="signUpEmail" name="upemail"
-                                placeholder="Enter email">
+                            <input type="email" class="form-control" id="signUpEmail" name="upemail" maxlength="30"
+                                required placeholder="Enter email">
                         </div>
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username"
-                                placeholder="Enter username">
+                            <input type="text" class="form-control" id="username" name="username" maxlength="20"
+                                required placeholder="Enter username">
                         </div>
                         <!-- took out dob & confirm password -->
                         <div class="form-group">
                             <label for="signUpPassword">Password</label>
-                            <input type="password" class="form-control" id="password" name="uppassword"
+                            <input type="password" class="form-control" id="password" name="uppassword" minlength="10"
                                 placeholder="Enter password">
                         </div>
 

@@ -399,24 +399,36 @@ const addCardToCollection = (collectionId, cardId, callback) => {
 
 // deleting collection func 
 const deleteCollection = (collectionId, callback) => {
-
-    const deleteCardsQuery = `DELETE FROM collection_card WHERE collection_id = ?`;
-    connection.query(deleteCardsQuery, [collectionId], (err, result) => {
+    // First, delete associated ratings
+    const deleteRatingsQuery = `DELETE FROM ratings WHERE collection_id = ?`;
+    connection.query(deleteRatingsQuery, [collectionId], (err, result) => {
         if (err) {
             callback(err, null);
-        } else {
+            return;
+        }
 
+        // Then, delete associated cards
+        const deleteCardsQuery = `DELETE FROM collection_card WHERE collection_id = ?`;
+        connection.query(deleteCardsQuery, [collectionId], (err, result) => {
+            if (err) {
+                callback(err, null);
+                return;
+            }
+
+            // Finally, delete the collection itself
             const deleteCollectionQuery = `DELETE FROM collection WHERE collection_id = ?`;
             connection.query(deleteCollectionQuery, [collectionId], (err, result) => {
                 if (err) {
                     callback(err, null);
-                } else {
-                    callback(null, result);
+                    return;
                 }
+
+                callback(null, result);
             });
-        }
+        });
     });
 };
+
 
 
 

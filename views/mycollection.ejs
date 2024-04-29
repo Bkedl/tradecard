@@ -1,46 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
+    <title>Pokécard Palace | Home</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/styles/styles.css">
 </head>
 
 <body>
-    <p>Hey, <%= userdata.user_name %>! Here is your collection:</p>
 
-    <form action="/mycollection" method="post">
-        <label for="collectionName">Collection Name:</label>
-        <input type="text" id="collectionName" name="collectionName" required>
-        <label for="collectionDescription">Collection Description:</label>
-        <textarea id="collectionDescription" name="collectionDescription" required></textarea>
-        <button type="submit">Create Collection</button>
-    </form>
+    <%- include('partials/navbar') %>
 
-    <!-- rneding the collections a user iwht that user id has  -->
+        <div class="jumbotron text-center jum-dash">
+            <h1 class="display-4">Welcome back <%= userdata.user_name %> to your collections!</h1>
 
-
-    <% if (collectionData.length> 0) { %>
-        <h2>Existing Collections:</h2>
-        <ul>
-            <% collectionData.forEach(collection=> { %>
-                <li>
-                    <%= collection.collection_name %> - <%= collection.collection_description %> - <a
-                                href="/collection/<%= collection.collection_id %>">View Cards</a>
-                            <form action="/collection/delete/<%= collection.collection_id %>" method="post">
-                                <button type="submit">Delete</button>
-                            </form>
-
-                </li>
-                <% }) %>
-        </ul>
-        <% } else { %>
-            <p>No collections yet.</p>
-            <% } %>
+            <hr class="my-4 short-hr">
+            <p class="lead">Start a new collection, add to an exisiting collections, delete old collections. <br> The
+                option is yours! <br> Disclaimer: All Collections are PUBLIC, thus ensure you do not put any sensitive
+                content within the Collection Name or Description </p>
+        </div>
 
 
 
+        <div class="container">
+
+
+            <form action="/mycollection" method="post" class="collection-form">
+                <div class="form-group">
+                    <label for="collectionName">Collection Name:</label>
+                    <h3><input type="text" class="form-control" id="collectionName" name="collectionName" maxlength="20"
+                            required></h3>
+                </div>
+                <div class="form-group">
+                    <label for="collectionDescription">Collection Description:</label>
+                    <textarea class="form-control" id="collectionDescription" name="collectionDescription"
+                        maxlength="50" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Collection</button>
+            </form>
+
+            <% if (collectionData.length> 0) { %>
+                <div class="h4 mt-4">
+                    Existing Collections:
+                </div>
+                <ul class="list-group links">
+                    <% collectionData.forEach(collection=> { %>
+                        <li class="list-group-item">
+                            <h4>
+                                <%= collection.collection_name %>
+                            </h4>
+                            <%= collection.collection_description %> - <a
+                                    href="/collection/<%= collection.collection_id %>">View Cards</a>
+                                <form action="/collection/delete/<%= collection.collection_id %>" method="post"
+                                    class="float-right">
+                                    <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+                                </form>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } else { %>
+                    <p>No collections yet.</p>
+                    <% } %>
+        </div>
+
+        <%- include('partials/footer') %>
+
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+                integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+                integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+                crossorigin="anonymous"></script>
 
 </body>
 

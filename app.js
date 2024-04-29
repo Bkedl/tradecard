@@ -412,8 +412,7 @@ app.post('/wishlist/add', isLoggedIn, (req, res) => {
         if (err) {
             console.error("Error adding card to wishlist:", error);
             res.status(500).send("Error adding card to wishlist.");
-        } else {
-            res.status(200).send("Card added to wishlist successfully.");
+            // have an else here to render a message saying 'added tonwish list" 
         }
     });
 });

@@ -260,3 +260,8 @@ body {
 .linksD a:hover {
     color: #ebe5e4;
 }
+
+.allcol,
+.border {
+    border: 3px solid #f15b4e;
+}

@@ -1,30 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
+    <title>Pokécard Palace | All Collections</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= title %>
-    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/styles/styles.css">
 </head>
 
 <body>
-    <h1>
-        <%= title %>
-    </h1>
 
-    <% collections.forEach(collection=> { %>
-        <h2>Collection: <%= collection.collection_name %>
-        </h2>
-        <p>Description: <%= collection.collection_description %>
-        </p>
+    <%- include('partials/navbar') %>
 
-        <form action="/collection/<%= collection.collection_id %>/cards" method="GET">
-            <button type="submit">View Cards</button>
-        </form>
+        <div class="jumbotron text-center jum-dash">
+            <h1 class="display-4">Welcome to All Collections</h1>
 
-        <% }); %>
+            <hr class="my-4 short-hr">
+            <p class="lead">Here you will find all collections created by other users. <br>
+                Use other member's collections to add to your Wishlist. </p>
+        </div>
+
+
+        <div class="container my-4 shadow-lg text-center links">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <p> Please feel free to leave a rating on other
+                        member's collections, which you will find at the bottom of the collection.
+                    </p>
+                    <br>
+                    <p>Disclaimer: If you see inappropriate Collection name's or description's, please reach out to us
+                        via our <a href="/contact">Contact Page</a></p>
+
+                    <br>
+
+                    <p>Happy Hunting!</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <% collections.forEach(collection=> { %>
+                    <div class="col-md-6">
+                        <div class="card mb-4 border">
+                            <div class="card-body allcol">
+                                <h2 class="card-title text-center">
+                                    <%= collection.collection_name %>
+                                </h2>
+                                <p class="card-text text-center">
+                                    <%= collection.collection_description %>
+                                </p>
+                                <div class="text-center">
+                                    <form action="/collection/<%= collection.collection_id %>/cards" method="GET">
+                                        <button type="submit" class="btn btn-primary">View Cards</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+            </div>
+        </div>
+
+        <%- include('partials/footer') %>
+
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+                integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+                integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+                crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -169,7 +169,7 @@ app.get('/dashboard', (req, res) => {
 // Function for middelware to check if user is logged in (DRY Approach) When placed in route, a user who is logged in can visit these pages, otherwise a user will be presented with the denied.ejs 
 const isLoggedIn = (req, res, nextthing) => {
     if (req.session.authen) {
-        nextthing(); // 
+        nextthing();
     } else {
         res.render('denied');
     }
@@ -461,7 +461,7 @@ app.post('/deleteAccount', (req, res) => {
             deleteAccount(emailToDelete, (deleteErr, result) => {
                 if (deleteErr) {
                     console.error('Error occurred when deleting account:', deleteErr);
-                    res.status(500).send('Error occurred when deleting account');
+                    res.redirect('/dashboard?deleteerror=true');
                 } else {
                     req.session.destroy((sessionErr) => {
                         if (sessionErr) {

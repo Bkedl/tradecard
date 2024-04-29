@@ -259,6 +259,7 @@ const deleteAccount = (userEmail, callback) => {
 };
 
 
+
 // Function to update a user's email 
 const updateEmail = (oldEmail, newEmail, userId, callback) => {
     const updateQuery = `UPDATE user SET email = ? WHERE email = ? AND user_id = ?`;

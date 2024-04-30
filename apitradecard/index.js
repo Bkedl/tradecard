@@ -126,7 +126,7 @@ app.get('/cards/:rowid', (req, res) => {
 
 // Sessions :
 
-// Function for Authentication & Bcrypt 
+// Callback for Authentication & Bcrypt 
 const authenticateUser = (email, password, callback) => {
     const getEmail = `SELECT * FROM user WHERE email = ?`;
     connection.query(getEmail, [email], async (err, rows) => {
@@ -151,7 +151,7 @@ const authenticateUser = (email, password, callback) => {
 }
 
 
-// Function to get a user by their by user_id
+// Callback to get a user by their by user_id
 const getUserById = (uid, callback) => {
     const getUserQuery = `SELECT * FROM user WHERE user_id = ?`;
     connection.query(getUserQuery, [uid], (err, rows) => {
@@ -164,7 +164,7 @@ const getUserById = (uid, callback) => {
 };
 
 
-// Fucntion to register a new user
+// Callback to register a new user
 const registerUser = (email, username, password, callback) => {
     const createUserQuery = `INSERT INTO user (email, user_name, password) VALUES (?, ?, ?)`;
     connection.query(createUserQuery, [email, username, password], (err, result) => {
@@ -177,7 +177,7 @@ const registerUser = (email, username, password, callback) => {
 };
 
 
-// Function to delete a card if user has admin status (within dashboard.ejs if-statement)
+// Callback to delete a card if user has admin status (within dashboard.ejs if-statement)
 // Layered if statements to ensure all card data is deleted from all tables the card_id is linked to 
 const deleteCardAdmin = (cname, setID, callback) => {
     const deleteCollectionCardsQuery = `DELETE FROM collection_card WHERE card_id IN (SELECT card_id FROM card WHERE card_name = ? AND set_id = ?)`;
@@ -205,7 +205,7 @@ const deleteCardAdmin = (cname, setID, callback) => {
 };
 
 
-// Function to add card, based on admin status (within dashboard.ejs if-statement)
+// Callback to add card, based on admin status (within dashboard.ejs if-statement)
 const addCardAdmin = (name, hitpoints, price, img, descr, type, set, series, energy, rarity, callback) => {
     const addcardQuery = `INSERT INTO card (card_name, hit_points, price, image_url, card_description, card_type_id, set_id, series_id, energy_type_id, rarity_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     connection.query(addcardQuery, [name, hitpoints, price, img, descr, type, set, series, energy, rarity], (err, result) => {
@@ -218,7 +218,7 @@ const addCardAdmin = (name, hitpoints, price, img, descr, type, set, series, ene
 };
 
 
-// Function to delete user account. Declared all SQL at beginning to better readability. SQL statements ensure user_id has no dependencies if userr is deleted, ensure FK parent row error avoided. Final query (deleteAccQuery) executed after all FK links deleted.
+// Callback to delete user account. Declared all SQL at beginning to better readability. SQL statements ensure user_id has no dependencies if userr is deleted, ensure FK parent row error avoided. Final query (deleteAccQuery) executed after all FK links deleted.
 const deleteAccount = (userEmail, callback) => {
     const deleteRatingsQuery = `DELETE FROM ratings WHERE collection_id IN (SELECT collection_id FROM collection WHERE user_id = (SELECT user_id FROM user WHERE email = ?))`;
     const deleteCollectionCardsQuery = `DELETE FROM collection_card WHERE collection_id IN (SELECT collection_id FROM collection WHERE user_id = (SELECT user_id FROM user WHERE email = ?))`;
@@ -260,7 +260,7 @@ const deleteAccount = (userEmail, callback) => {
 
 
 
-// Function to update a user's email 
+// Callback to update a user's email 
 const updateEmail = (oldEmail, newEmail, userId, callback) => {
     const updateQuery = `UPDATE user SET email = ? WHERE email = ? AND user_id = ?`;
     connection.query(updateQuery, [newEmail, oldEmail, userId], (err, result) => {
@@ -275,7 +275,7 @@ const updateEmail = (oldEmail, newEmail, userId, callback) => {
 
 // Collections :
 
-// Function that gets all of the colection data for a user who is logge din 
+// Callback that gets all of the colection data for a user who is logge din 
 const myCollectionData = (userId, callback) => {
     const getMyCollectionQuery = `
         SELECT collection.*
@@ -292,7 +292,7 @@ const myCollectionData = (userId, callback) => {
 };
 
 
-// Function to create a collection 
+// Callback to create a collection 
 const createCollection = (userId, collectionName, collectionDescription, callback) => {
     const createCollectionQuery = `INSERT INTO collection (collection_name, collection_description, user_id) VALUES (?, ?, ?)`;
     connection.query(createCollectionQuery, [collectionName, collectionDescription, userId], (err, result) => {
@@ -305,7 +305,7 @@ const createCollection = (userId, collectionName, collectionDescription, callbac
 };
 
 
-// Function to list all cards within a user's colection 
+// Callback to list all cards within a user's colection 
 const getCardsInaCollection = (collectionId, callback) => {
     const getCardsQuery = `
         SELECT card.*
@@ -323,7 +323,7 @@ const getCardsInaCollection = (collectionId, callback) => {
 };
 
 
-// Function that just gets all user collections
+// Callback that just gets all user collections
 const getAllCollections = (callback) => {
     const query = `
         SELECT *
@@ -339,7 +339,7 @@ const getAllCollections = (callback) => {
 };
 
 
-// Function that gets all of the cards, to populate values in  drop-down list
+// Callback that gets all of the cards, to populate values in  drop-down list
 const getAllCards = (callback) => {
     const getAllCardsQuery = `SELECT card.*, rarity.rarity, energy_type.energy, \`set\`.set, series.series, card_type.type
     FROM card
@@ -358,7 +358,7 @@ const getAllCards = (callback) => {
 };
 
 
-// Function to add cards to a collection 
+// Callback to add cards to a collection 
 const addCardToCollection = (collectionId, cardId, callback) => {
     const addCardQuery = `
         INSERT INTO collection_card (collection_id, card_id)
@@ -374,7 +374,7 @@ const addCardToCollection = (collectionId, cardId, callback) => {
 };
 
 
-// Functoin to delete ca collection, using multiple SQL queries in a sequntial order to ensure no FK parent row error 
+// Callback to delete ca collection, using multiple SQL queries in a sequntial order to ensure no FK parent row error 
 const deleteCollection = (collectionId, callback) => {
     const deleteRatingsQuery = `DELETE FROM ratings WHERE collection_id = ?`;
     connection.query(deleteRatingsQuery, [collectionId], (err, result) => {
@@ -403,7 +403,7 @@ const deleteCollection = (collectionId, callback) => {
 
 // Wishlist :
 
-// Function to add a card to a wishlist 
+// Callback to add a card to a wishlist 
 const addToWishlist = (userId, cardId, callback) => {
     const addToWishlistQuery = `INSERT INTO wishlist (user_id, card_id) VALUES (?, ?)`;
     connection.query(addToWishlistQuery, [userId, cardId], (err, result) => {
@@ -416,7 +416,7 @@ const addToWishlist = (userId, cardId, callback) => {
 };
 
 
-// Function to get a wishlist for a user
+// Callback to get a wishlist for a user
 const getWishlistItems = (userId, callback) => {
     const getWishlistItemsQuery = `
         SELECT card.*
@@ -433,7 +433,7 @@ const getWishlistItems = (userId, callback) => {
     });
 };
 
-// Fucntion to remove a card from a wishlist 
+// Callback to remove a card from a wishlist 
 const removeCardFromWishlist = (userId, cardId, callback) => {
     const removeCardQuery = `
         DELETE FROM wishlist
@@ -452,7 +452,7 @@ const removeCardFromWishlist = (userId, cardId, callback) => {
 
 // Ratings : 
 
-// Function to insert a rating to a database relating to a speicific collection 
+// Callback to insert a rating to a database relating to a speicific collection 
 const insertRating = (collectionId, userId, ratingValue, callback) => {
     const insertRatingQuery = 'INSERT INTO ratings (collection_id, user_id, rating_value) VALUES (?, ?, ?)';
     connection.query(insertRatingQuery, [collectionId, userId, ratingValue], (err, result) => {
@@ -465,7 +465,7 @@ const insertRating = (collectionId, userId, ratingValue, callback) => {
 };
 
 
-// Function to get average rating, using round function within SQL so average ratings for a collection can be dsiplayed 
+// Callback to get average rating, using round function within SQL so average ratings for a collection can be dsiplayed 
 const getAverageRating = (collectionId, callback) => {
     const query = 'SELECT ROUND(AVG(rating_value), 1) AS averageRating FROM ratings WHERE collection_id = ?';
     connection.query(query, [collectionId], (err, results) => {

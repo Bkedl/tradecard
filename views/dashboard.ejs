@@ -5,18 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokécard Palace | Dashboard</title>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
     <link rel="stylesheet" href="/styles/styles.css">
 </head>
 
 <body>
+
+
     <%- include('partials/navbar') %>
-
-
 
 
 
@@ -26,13 +22,6 @@
             <hr class="my-4 short-hr">
             <p class="lead">We're delighted to have you with us!</p>
         </div>
-
-
-
-
-
-
-
 
 
 
@@ -55,6 +44,8 @@
                 </div>
             </div>
         </div>
+
+
 
         <div class="container mt-4 shadow-lg">
             <div class="text-center mb-4">
@@ -109,16 +100,10 @@
 
 
 
-
-
-        <!-- ADMIN STUFF GOES HERE  -->
         <% if (userdata.role==='admin' ) { %>
-
-            <!-- delketed care -->
             <div class="container mt-4 shadow-lg">
                 <div class="row justify-content-center">
                     <div class="col-md-6 my-4">
-
                         <form action="/deleteCard" method="POST">
                             <h4 class="text-center mt-4">Delete Card</h4>
                             <div class="form-group">
@@ -131,21 +116,15 @@
                                 <input type="decimal" class="form-control" id="setID" name="cardset"
                                     placeholder="1 = PF / 2 = TF / 3 = CE / 4 = HF / 5 = AO / 6 = XY">
                             </div>
-
                             <button type="submit" class="btn btn-secondary">Delete Card</button>
                         </form>
                     </div>
                 </div>
             </div>
 
-
-
-
-            <!-- add card -->
             <div class="container mt-4 shadow-lg">
                 <div class="row justify-content-center">
                     <div class="col-md-6 my-4">
-
                         <form action="/addCard" method="POST">
                             <h4 class="text-center mt-4">Add Card</h4>
                             <div class="form-group">
@@ -157,7 +136,6 @@
                                 <label for="addHP">Hit Points</label>
                                 <input type="int" class="form-control" id="hp" name="hp" placeholder="Enter Hit Points">
                             </div>
-
                             <div class="form-group">
                                 <label for="addPrice">Price</label>
                                 <input type="decimal" class="form-control" id="price" name="price"
@@ -198,15 +176,13 @@
                                 <input type="int" class="form-control" id="rarity" name="rarity"
                                     placeholder="1 = Common / 2 = Uncommon / 3 = Rare / 4 = Double Rare etc">
                             </div>
-
                             <button type="submit" class="btn btn-secondary">Add Card</button>
                         </form>
                     </div>
                 </div>
             </div>
-
-
             <% } %>
+
 
 
                 <div class="container mt-4">
@@ -234,10 +210,6 @@
 
 
 
-
-
-
-
                 <div class="container mt-4">
                     <h4 class="text-center">Delete Account</h4>
                     <form action="/deleteAccount" method="POST">
@@ -248,7 +220,6 @@
                                 <input type="email" class="form-control" id="email" name="delEmail"
                                     placeholder="Enter Email">
                             </div>
-
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary">Delete Account</button>
@@ -257,7 +228,9 @@
                 </div>
 
 
+
                 <%- include('partials/footer') %>
+
 
 
                     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -270,51 +243,36 @@
                         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
                         crossorigin="anonymous"></script>
                     <script>
-                        //  if the url contains a query parameter indicating successful deletion card
                         const urlParams = new URLSearchParams(window.location.search);
                         const deletecard = urlParams.get('deleted');
-                        // ref! its query params in app.js and 
-                        // idf reg parameter is present, display a popup message
                         if (deletecard === 'true') {
                             alert("Card Deleted Successfully");
                         }
                     </script>
                     <script>
-                        //  if the url contains a query parameter indicating successful added card
                         const urlParamet = new URLSearchParams(window.location.search);
                         const addedcard = urlParamet.get('added');
-                        // ref! its query params in app.js and 
-                        // idf reg parameter is present, display a popup message
                         if (addedcard === 'true') {
                             alert("Card added Successfully");
                         }
                     </script>
                     <script>
-                        //  if the url contains a query parameter indicating insuccesgul deletion 
                         const urlParameters = new URLSearchParams(window.location.search);
                         const deletedacc = urlParameters.get('deleteerror');
-                        // ref! its query params in app.js and 
-                        // idf reg parameter is present, display a popup message
                         if (deletedacc === 'true') {
                             alert("Account not deleted, error has occurred. Check your credentials, or contact us for support");
                         }
                     </script>
                     <script>
-                        //  if the url contains a query parameter indicating insuccesgul deletion 
                         const urlPa = new URLSearchParams(window.location.search);
                         const updateemail = urlPa.get('emailupdate');
-                        // ref! its query params in app.js and 
-                        // idf reg parameter is present, display a popup message
                         if (updateemail === 'true') {
                             alert("Email updated!");
                         }
                     </script>
                     <script>
-                        //  if the url contains a query parameter indicating insuccesgul deletion 
                         const urlPar = new URLSearchParams(window.location.search);
                         const nonupdateemail = urlPar.get('emailupdateerror');
-                        // ref! its query params in app.js and 
-                        // idf reg parameter is present, display a popup message
                         if (nonupdateemail === 'true') {
                             alert("Email not updated, please check your credentials");
                         }

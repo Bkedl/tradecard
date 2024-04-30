@@ -7,24 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/styles/styles.css">
 </head>
 
 <body>
 
+
     <%- include('partials/navbar') %>
+
+
 
         <div class="jumbotron text-center jum-dash">
             <h1 class="display-4"> Browse, Wishlist, Rate!
             </h1>
         </div>
 
+
+
         <div class="container">
             <div class="row">
                 <% if (cards.length===0) { %>
                     <div class="col-md-12 text-center">
-
                         <img src="/images/unown-cards.png" alt="No cards found" class="img-fluid">
                         <p>No cards found in this collection</p>
                     </div>
@@ -44,7 +47,6 @@
                                         </p>
                                     </div>
                                     <div class="text-center">
-
                                         <form action="/wishlist/add" method="post">
                                             <input type="hidden" name="cardId" value="<%= card.card_id %>">
                                             <button type="submit" class="btn btn-primary">Add to Wishlist</button>
@@ -56,6 +58,7 @@
 
                                 <% } %>
             </div>
+
 
 
             <% if (cards.length> 0) { %>
@@ -78,7 +81,11 @@
                 <% } %>
         </div>
 
+
+
         <%- include('partials/footer') %>
+
+
 
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

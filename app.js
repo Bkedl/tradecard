@@ -33,7 +33,7 @@ app.set('view engine', 'ejs');
 // To serve static files 
 app.use(express.static(path.join(__dirname, "./public")));
 
-// Language and date and time printed to console (week07 lecture slides) (middleware) 
+// Language and date and time printed to console 
 const log_data = (req, res, next) => {
     const visitTime = new Date();
     console.log(`User visited at ${visitTime.toLocaleString()} - using ${req.get('User-Agent')}`);
@@ -42,7 +42,6 @@ const log_data = (req, res, next) => {
 
 const browser_lang = (req, res, next) => {
     console.log(`Client language:::::${req.header('accept-language')}`);
-
     next();
 };
 
@@ -115,7 +114,7 @@ app.get('/card', (req, res) => {
         })
         .catch((error) => {
             console.error(error);
-            res.status(500).send('Internal Server Error');
+            res.status(500).send('Error Fetching Cards');
         });
 });
 
@@ -263,7 +262,6 @@ app.get('/collections', isLoggedIn, (req, res) => {
             console.error('Error fetching collections:', err);
             res.status(500).send('Error fetching collections');
         } else {
-
             res.render("allcollections", { collections });
         }
     });
@@ -374,7 +372,7 @@ app.post('/collection/:collectionId/rate', isLoggedIn, (req, res) => {
 });
 
 
-// Route to sign up to webiste, using bcrypt, thus async. Login via Week07 Lab
+// Route to sign up to webiste, using bcrypt, thus async. 
 app.post('/signup', async (req, res) => {
     const email = req.body.upemail;
     const username = req.body.username;

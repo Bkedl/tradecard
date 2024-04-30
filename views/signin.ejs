@@ -13,21 +13,13 @@
 <body>
 
 
-
-
-
     <%- include('partials/navbar') %>
-
-
-
 
 
 
         <div class="container-fluid account-section">
             <div class="row justify-content-center">
                 <div class="col-md-6 mb-4">
-
-                    <!-- now form action post rather than form id and using email insrtead of usrname  -->
                     <form action="/signin" method="POST">
                         <h2 class="text-center mt-4">S I G N&nbsp;&nbsp;I N</h2>
                         <hr class="my-4 short-hr">
@@ -48,10 +40,6 @@
 
 
 
-
-            <!--  CODE ABOVE NOW WORKS!!!  -->
-
-
             <div class="row justify-content-center">
                 <div class="col-md-6 mb-4">
                     <form action="/signup" method="POST">
@@ -67,20 +55,19 @@
                             <input type="text" class="form-control" id="username" name="username" maxlength="20"
                                 required placeholder="Enter username">
                         </div>
-                        <!-- took out dob & confirm password -->
                         <div class="form-group">
                             <label for="signUpPassword">Password</label>
                             <input type="password" class="form-control" id="password" name="uppassword" minlength="10"
                                 placeholder="Enter password">
                         </div>
-
-                        <!-- compexity of sigin ejs was not working in the actual session stuff, code removed for now of signup.js (script tage also removed for now) -->
                         <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
                     </form>
                 </div>
             </div>
         </div>
         </div>
+
+
         <%- include('partials/footer') %>
 
 
@@ -94,11 +81,8 @@
                 integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
                 crossorigin="anonymous"></script>
             <script>
-                // Check if the URL contains a query parameter indicating successful registration
                 const urlParams = new URLSearchParams(window.location.search);
                 const registered = urlParams.get('registered');
-                // ref! its query params in app.js and 
-                // idf reg parameter is present, display a popup message
                 if (registered === 'true') {
                     alert("User now registered, sign in with your credentials to unlock our site");
                 }
@@ -107,9 +91,6 @@
                 const urlParamas = new URLSearchParams(window.location.search);
                 const siginerror = urlParamas.get('error');
                 if (siginerror === 'true') {
-
-                    // and ref 
-                    // alert for sing in error 
                     alert("Failed to sign in. Please check your credentials and try again.");
                 }
             </script>
@@ -117,9 +98,6 @@
                 const urlParama2 = new URLSearchParams(window.location.search);
                 const deleteaccount = urlParama2.get('deleteaccount');
                 if (deleteaccount === 'true') {
-
-                    // and ref 
-                    // alert for sing in error 
                     alert("Account Deleted Successfully");
                 }
             </script>

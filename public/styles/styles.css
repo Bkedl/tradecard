@@ -14,17 +14,11 @@
     color: #9c4942;
 }
 
-
-/* https://stackoverflow.com/questions/23333231/bootstrap-button-shows-blue-outline-when-clicked apply this at somepoint */
 .btn:focus,
 .btn:active {
     outline: none !important;
     box-shadow: none;
 }
-
-
-
-
 
 .container .btn.btn-primary {
     background-color: #f15b4e;
@@ -174,8 +168,6 @@ body {
     color: #ffffff;
 }
 
-/* Specificc button selectors as the other ones are not working - try and find fix if needed */
-
 .account-section .btn.btn-primary {
     background-color: #f15b4e;
     border-color: transparent;
@@ -194,7 +186,6 @@ body {
     padding-left: 20px;
 }
 
-/* again this is not working as btn-primary is not having css applied... */
 .filters-section .btn.btn-primary {
     background-color: #f15b4e;
     border-color: transparent;

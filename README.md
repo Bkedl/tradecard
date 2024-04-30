@@ -1,4 +1,6 @@
 # tradecard
-# make sure to run 2 terminals, one for api and one for frontend. In first termuinal do npx nodemon, in second terminal run node apitradecard/index.js
-# npx nodemon now works in only one terminal as req things from index.js 
-# npm install bcrypt for encryotion to work? 
+# install 401545 database on localhost & ensure it is running
+# change const PORT to the port you would like the localhost to run on 
+# change const PORT in index.js to which ever port you would like REST API to run on
+# git clone repositiory link
+# within terminal : cd tradecard (enter) npm install (enter) cd apitradecard (enter) npm install (enter) cd tradecard (enter) npx nodemon

@@ -1,7 +1,8 @@
 # Tradecard
 
 ## About
-CSC7062 Web Development Final Project
+Website Development Project
+JavaScript, SQL, NodeJS, ExpressJS, EJS, REST API
 
 ## Instructions to Run Locally
 

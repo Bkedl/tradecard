@@ -106,7 +106,6 @@ app.get('/cards', (req, res) => {
 
 
 // Individual card route, with card information displayed via FK links 
-
 app.get('/cards/:rowid', (req, res) => {
     let r_id = req.params.rowid;
     let getcard = `SELECT card.*, rarity.rarity, energy_type.energy, \`set\`.set, series.series, card_type.type
